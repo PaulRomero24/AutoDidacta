@@ -21,5 +21,12 @@
 </template>
 
 <style scoped>
+    h1{
+        color: azure;
+        text-align: center;
+        font-size: 5rem;
+        font-style: italic;
+        text-decoration: solid;
+    }
 
 </style>

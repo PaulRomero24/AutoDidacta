@@ -49,7 +49,7 @@ const closeMenu = () => {
     position: fixed;
     top: 0;
     z-index: 1050;
-    background-color: #9bb3ca;
+    background-color: #e4ec97;
     padding: 1rem 1.5rem;
     border-radius: 20px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -78,7 +78,7 @@ const closeMenu = () => {
 }
 
 .nav-item:hover {
-    background-color: hsla(160, 95%, 78%, 0.747);
+    background-color: hsla(160, 56%, 52%, 0.747);
     color: black;
 }
 
