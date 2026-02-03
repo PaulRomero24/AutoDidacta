@@ -57,12 +57,16 @@ const closeExpanded = () => {
         <div class="card-container" @click.stop>
             <div class="card" :class="{ flipped: isFlipped }" @click="isFlipped = !isFlipped">
                 <div class="card-front">
+                    <h1>MARISA BERDU</h1>
                     <img :src="frontal" alt="Portada" />
                 </div>
                 <div class="card-back">
                     <div class="center-text">
-                        <h2>Mi Malargüe</h2>
-                        <p>Un rincón único entre montañas y cielo infinito...</p>
+                        <h2>¿Quien soy?</h2>
+                        <p>Soy una guia de turismo en Malargüe, llevo en actividad
+                            25 años y contando. Ejerci como Profesora,tambien eh sido dueña de
+                            una agencia. Amo a mi Malargüe y espero que ustedes tambien
+                        </p>
                         <!-- ✅ Botón para cerrar e ir al contenido -->
                         <button class="close-button" @click.stop="closeCard">
                             Entrar al sitio
@@ -81,7 +85,7 @@ const closeExpanded = () => {
             </div>
         </div>
 
-        <div v-if="showExpanded" class="lightbox" @click="closeExpanded">
+        <div v-if="showExpanded" class="lightbox" @click.stop="closeExpanded">
             <img :src="expandedImage" class="expanded-img" />
         </div>
     </div>
@@ -143,6 +147,23 @@ const closeExpanded = () => {
     overflow: hidden;
 }
 
+.card-front h1 {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 4.5rem;
+    /* Más responsive */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    /* Para mejor legibilidad */
+    z-index: 10;
+    margin: 0;
+    width: 100%;
+    font-weight: bold;
+}
+
 .card-front img {
     width: 100%;
     height: 100%;
@@ -171,13 +192,14 @@ const closeExpanded = () => {
 
 .center-text h2 {
     font-size: 2.4rem;
-    margin: 0 0 1rem 0;
+    margin: 1rem 0 0.5rem 0;
     font-weight: 700;
 }
 
 .center-text p {
     font-size: 1.2rem;
-    line-height: 1.6;
+    line-height: 2.3;
+    font-weight: bold;
 }
 
 .close-button {
@@ -260,6 +282,29 @@ const closeExpanded = () => {
 }
 
 @media (max-width: 768px) {
+
+    .card-front h1 {
+        font-size: 2.5rem;
+        width: 100%;
+        /* Ocupa todo el ancho */
+        padding: 0 1.5rem;
+        /* Espacio a los lados para no tocar los bordes */
+        box-sizing: border-box;
+        /* Incluye padding en el ancho */
+        white-space: normal;
+        /* Permite saltos de línea si el texto es largo */
+        line-height: 1.2;
+        /* Mejora la legibilidad */
+    }
+
+    .center-text p {
+        font-size: 1rem;
+        line-height: normal;
+        font-weight: bold;
+        padding: 0 1rem;
+        /* Opcional: también ajusta el párrafo */
+    }
+
     .corner-img {
         width: 120px;
         height: 120px;

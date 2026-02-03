@@ -3,10 +3,10 @@
 import { ref } from 'vue';
 
 const navegacion = ref([
-    { id: 1, nombre: "Acerca de Mi", enlace: "#acercademi" },
-    { id: 2, nombre: "Experiencia", enlace: "#experiencia" },
-    { id: 3, nombre: "¿Donde ir?", enlace: "#dondeir" },
-    { id: 4, nombre: "Mi Malargüe", enlace: "#mimalargue" },
+    { id: 1, nombre: "¿Donde ir?", enlace: "#dondeir" },
+    { id: 2, nombre: "Mi Malargüe", enlace: "#mimalargue" },
+    { id: 3, nombre: "Reseñas", enlace: "#reseñas" },
+    { id: 4, nombre: "Experiencia", enlace: "#experiencia" },
 ]);
 
 const menuVisible = ref(false);
@@ -85,8 +85,21 @@ const closeMenu = () => {
 /* === Desktop: centrado arriba === */
 @media (min-width: 769px) {
     .menu-toggle {
-        display: none;
+        display: flex;
+        position: fixed;
+        top: 1.2rem;
+        left: 1.2rem;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 20px;
+        height: 14px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1100;
+        padding: 0;
     }
+
 
     .navbar {
         left: 50%;

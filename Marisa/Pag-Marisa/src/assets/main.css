@@ -1,7 +1,7 @@
 /* Estilos base */
 #app {
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0.5rem;
     font-weight: normal;
     background-color: var(--vt-c-indigo);
     box-sizing: border-box;
@@ -16,7 +16,7 @@ a {
 /* Responsivo: tablets y móviles */
 @media (max-width: 768px) {
     #app {
-        padding: 1rem;
+        padding: 0.5rem;
         /* Menos padding en móviles */
         font-size: 0.9rem;
         /* Más legible que "small" */
