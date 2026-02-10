@@ -43,11 +43,6 @@ a {
         /* Permite que los íconos se ajusten en varias filas si es necesario */
     }
 
-    .icon-redsocial {
-        width: 30px;
-        height: 30px;
-        margin: 4px;
-    }
 }
 
 /* Opcional: pantallas grandes */

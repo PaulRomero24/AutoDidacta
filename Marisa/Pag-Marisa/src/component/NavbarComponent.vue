@@ -5,8 +5,8 @@ import { ref } from 'vue';
 const navegacion = ref([
     { id: 1, nombre: "¿Donde ir?", enlace: "#dondeir" },
     { id: 2, nombre: "Mi Malargüe", enlace: "#mimalargue" },
-    { id: 3, nombre: "Reseñas", enlace: "#reseñas" },
-    { id: 4, nombre: "Experiencia", enlace: "#experiencia" },
+    { id: 3, nombre: "Experiencia", enlace: "#experiencia" },
+    { id: 4, nombre: "Enlaces de interes", enlace: "#links" },
 ]);
 
 const menuVisible = ref(false);

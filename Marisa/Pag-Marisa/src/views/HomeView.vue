@@ -6,6 +6,8 @@ import ExperienciaComponent from '../component/ExperienciaComponent.vue';
 import FlipCard from '../component/FlipCard.vue';
 import MiMalargueComponent from '../component/MiMalargueComponent.vue';
 import NavbarComponent from '../component/NavbarComponent.vue';
+import EnlacesInteres from '@/component/EnlacesInteres.vue';
+import FooterComponent from '@/component/footerComponent.vue';
 
 </script>
 
@@ -25,8 +27,11 @@ import NavbarComponent from '../component/NavbarComponent.vue';
         <section id="experiencia">
             <ExperienciaComponent />
         </section>
+        <section id="links">
+            <EnlacesInteres />
+        </section>
         <footer>
-            <p>TODOS LOS DERECHOS RESERVADOS PIM PUM PAN</p>
+        <FooterComponent />
         </footer>
     </div>
 </template>
