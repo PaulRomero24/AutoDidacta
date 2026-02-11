@@ -26,7 +26,7 @@ const closeCard = () => {
 
     // Ir al contenido después de cerrar
     setTimeout(() => {
-        document.getElementById('experiencia')?.scrollIntoView({
+        document.getElementById('dondeir')?.scrollIntoView({
             behavior: 'smooth'
         });
     }, 300);
