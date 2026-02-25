@@ -138,7 +138,7 @@ const closeGallery = () => {
 
 .grid-lugar {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
+    grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
     gap: 1rem;
     justify-content: center;
 }

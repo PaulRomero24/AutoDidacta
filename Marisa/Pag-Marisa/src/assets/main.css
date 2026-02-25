@@ -44,12 +44,3 @@ a {
     }
 
 }
-
-/* Opcional: pantallas grandes */
-@media (min-width: 1024px) {
-    #app {
-        width: 100%;
-        /* No necesitas display:flex aquí si no lo usas */
-        padding: 2.5rem;
-    }
-}

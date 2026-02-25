@@ -28,14 +28,14 @@ const closeExpanded = () => {
 //Lista de sitios
 const lugares = ref([
     {
-        nombre: "Caverna",
-        descripcion: "lorem qwepqowijasdkflkfm lorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfm",
+        nombre: "Caverna de las brujas",
+        descripcion: "Caverna de las brujas es un lugar llena de magia y belleza.Aca hacemos un recorrido dentro de una caverna moldeada por el tiempo, que se dividen en diferentes salas.",
         imagenes: [caverna1, caverna2]
     },
 
     {
         nombre: "Payunia",
-        descripcion: "lorem qwepqowijasdkflkfm lorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfm",
+        descripcion: "Aunque pareciera una escena de alguna pelicula en el espacio, este lugar existe, y la sensacion que produce estar en el medio de casi 800 conos volcanicos es una experiencia imborrable",
         imagenes: [payunia1, payunia2]
     },
 
@@ -47,7 +47,7 @@ const lugares = ref([
 
     {
         nombre: "Valles",
-        descripcion: "lorem qwepqowijasdkflkfm lorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfmlorem qwepqowijasdkflkfm",
+        descripcion: "El complejo de los valles es un recorrido a travez de la ruta que lleva a 'Las Leñas',en el veremos 'La Niña Encantada','Pozo de las animas','Termas de los Molles' y por ultimo el complejo de nieve 'Las Leñas'  ",
         imagenes: [valles1, valles2]
     },
 ])
@@ -109,6 +109,12 @@ const lugares = ref([
     width: 100%;
 }
 
+.descripcion{
+    font-size: 24px;
+    text-align: center;
+    font-family: sans-serif;
+    font-style: italic;
+}
 .imagenes {
     display: flex;
     gap: 1rem;

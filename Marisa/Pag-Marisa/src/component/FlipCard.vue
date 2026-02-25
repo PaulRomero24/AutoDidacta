@@ -26,7 +26,7 @@ const closeCard = () => {
 
     // Ir al contenido después de cerrar
     setTimeout(() => {
-        document.getElementById('dondeir')?.scrollIntoView({
+        document.getElementById('experiencia')?.scrollIntoView({
             behavior: 'smooth'
         });
     }, 300);
@@ -65,7 +65,7 @@ const closeExpanded = () => {
                         <h2>¿Quien soy?</h2>
                         <p>Soy una guia de turismo en Malargüe, llevo en actividad
                             25 años y contando. Ejerci como Profesora,tambien eh sido dueña de
-                            una agencia. Amo a mi Malargüe y espero que ustedes tambien
+                            una agencia de turismo. Amo a mi Malargüe y espero que ustedes tambien
                         </p>
                         <!-- ✅ Botón para cerrar e ir al contenido -->
                         <button class="close-button" @click.stop="closeCard">

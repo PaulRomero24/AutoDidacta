@@ -18,14 +18,14 @@ import FooterComponent from '@/component/footerComponent.vue';
     <!-- Portfolio normal (solo si la carta está cerrada) -->
     <div id="app" v-show="!showIntro">
         <NavbarComponent />
+        <section id="experiencia">
+            <ExperienciaComponent />
+        </section>
         <section id="dondeir">
             <DondeIrComponent />
         </section>
         <section id="mimalargue">
             <MiMalargueComponent />
-        </section>
-        <section id="experiencia">
-            <ExperienciaComponent />
         </section>
         <section id="links">
             <EnlacesInteres />

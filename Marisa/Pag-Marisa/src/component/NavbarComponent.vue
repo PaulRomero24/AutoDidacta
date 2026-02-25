@@ -3,9 +3,9 @@
 import { ref } from 'vue';
 
 const navegacion = ref([
-    { id: 1, nombre: "¿Donde ir?", enlace: "#dondeir" },
-    { id: 2, nombre: "Mi Malargüe", enlace: "#mimalargue" },
-    { id: 3, nombre: "Experiencia", enlace: "#experiencia" },
+    { id: 1, nombre: "Experiencia", enlace: "#experiencia" },
+    { id: 2, nombre: "¿Donde ir?", enlace: "#dondeir" },
+    { id: 3, nombre: "Mi Malargüe", enlace: "#mimalargue" },
     { id: 4, nombre: "Enlaces de interes", enlace: "#links" },
 ]);
 
