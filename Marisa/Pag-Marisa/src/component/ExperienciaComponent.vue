@@ -82,15 +82,17 @@ const closeExpanded = () => {
 .contenido-con-imagenes {
     position: relative;
     padding: 5rem 4rem;
-    /* ← Más espacio interno */
-    background: #c7d8ce;
-    /* Opcional: fondo semitransparente para mejor legibilidad */
-    border-radius: 16px;
+    background: var(--arena);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* sin border-radius para que llegue a los bordes */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%); /* ← truco para romper el max-width del padre */
 }
 
 .texto-contenido h2 {
+    text-align: center;
     font-size: 2.2rem;
+    margin-top: 3rem;
     margin-bottom: 2rem;
     /* ← Más espacio debajo del título */
 }
@@ -115,37 +117,37 @@ const closeExpanded = () => {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     z-index: 1;
-    transition: transform 0.5s ease;
+    transition: transform 1s ease;
 }
 
 .corner-img:hover {
-    transform: scale(1.15) rotate(2deg);
+    transform: scale(1.25) rotate(0.2deg);
 }
 
 /* Posiciones con offset */
 .top-left {
-    top: 0;
-    left: 0;
+    top: 5%;
+    left: 4.5%;
     transform: translate(-40%, -40%);
     /* ← Se mueve fuera del contenedor */
 }
 
 .top-right {
-    top: 0;
-    right: 0;
-    transform: translate(40%, -40%);
+    top: 5%;
+    right: 3.5%;
+    transform: translate(30%, -40%);
 }
 
 .bottom-left {
     bottom: 0;
-    left: 0;
-    transform: translate(-40%, 40%);
+    left: 4.5%;
+    transform: translate(-40%, 50%);
 }
 
 .bottom-right {
     bottom: 0;
-    right: 0;
-    transform: translate(40%, 40%);
+    right: 4.5%;
+    transform: translate(40%, 50%);
 }
 
 /* Imagen central - dentro del contenedor */
@@ -204,6 +206,7 @@ const closeExpanded = () => {
         grid-template-columns: 1fr 160px;
         /* texto | imágenes */
         gap: 1.2rem;
+        margin-top: 2rem;
         padding: 1.5rem;
         align-items:center;
     }

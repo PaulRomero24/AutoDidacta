@@ -1,7 +1,6 @@
 <!-- src/components/MiniGaleria.vue -->
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 // Importa 4-6 fotos representativas
 import caverna1 from "../assets/Lugares/Caverna1.jpg";
