@@ -54,7 +54,7 @@ const handleIntroClose = () => {
   --verde-claro: #4a7c4a;
   --tierra: #8B4513;
   --tierra-claro: #A0522D;
-  --arena: #D4A96A;
+  --arena: #ebc07f;
   --arena-claro: #E8C98A;
   --humo: #F5F0E8;
   --humo-oscuro: #E8E0D0;
@@ -79,7 +79,7 @@ html {
 
 body {
   font-family: var(--font-cuerpo);
-  background-color: var(--humo);
+  background-color: var(--humo-oscuro);
   color: var(--texto-oscuro);
   overflow-x: hidden;
 }
@@ -101,12 +101,21 @@ body::before {
 
 section {
   position: relative;
+  margin-top: 20px;
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--font-titulo);
+  text-transform: uppercase;
+}
+
+p{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  font-style: italic;
 }
 
 /* Scrollbar personalizado */

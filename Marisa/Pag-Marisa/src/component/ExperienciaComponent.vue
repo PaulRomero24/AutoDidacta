@@ -39,7 +39,7 @@ const closeExpanded = () => {
                 <p>
                     Me recibí como guía en el 2001, estuve guiando desde entonces. Me gustaba tanto el oficio, que creé
                     una agencia de turismo, pero con el tiempo me di cuenta que mi lugar era estar en los lugares, y no
-                    en la ciudad. Así que volví al ruedo, ahí compartí hermosos momentos con muchos colegas y aprendí un
+                    en la ciudad. <br>Así que volví al ruedo, ahí compartí hermosos momentos con muchos colegas y aprendí un
                     montón de los experimentados. Hoy en dia tengo la fortuna de compartir este trabajo con mi hijo.
                     Seguí y sigo capacitándome con cada disertación o curso que dan sobre mi Malargüe, su fauna y flora.
                 </p>
@@ -98,11 +98,10 @@ const closeExpanded = () => {
 }
 
 .texto-contenido p {
-    line-height: 1.8;
-    font-size: 1.2rem;
-    /* ← Un poco más legible */
-    color: #2c3e50;
+    font-size: 24px;
     text-align: center;
+    font-style:italic;
+    white-space: pre-line;
 
 }
 
@@ -225,7 +224,6 @@ const closeExpanded = () => {
         font-size: 1rem;
         line-height: 1.6;
         font-style: italic;
-        font-weight: bold;
     }
 
     /* Ocultamos las posiciones absolutas */
