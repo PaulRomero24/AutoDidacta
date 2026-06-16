@@ -114,6 +114,7 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
     max-width: 1600px;
     /* ← Añade padding horizontal aquí */
     margin: 2rem auto;
+    margin-top: 20px;
 }
 
 .lugar-card {

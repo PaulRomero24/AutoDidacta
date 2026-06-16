@@ -8,6 +8,7 @@ import DondeIrComponent from './component/DondeIrComponent.vue';
 import MiMalargueComponent from './component/MiMalargueComponent.vue';
 import EnlacesInteres from './component/EnlacesInteres.vue';
 import FooterComponent from './component/footerComponent.vue';
+import EstrelladaComponent from './component/EstrelladaComponent.vue';
 
 // Fix: showIntro se controla aquí y se pasa al FlipCard
 const showIntro = ref(true);
@@ -102,6 +103,7 @@ body::before {
 section {
   position: relative;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 h1,
