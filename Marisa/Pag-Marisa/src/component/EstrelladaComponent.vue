@@ -1,7 +1,6 @@
 <script setup>
 
-import PabloGamba from "../assets/Videos/Pablo-Gamba.mp4";
-import Presentacion from "../assets/Videos/Presentacion.mp4";
+
 
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 
@@ -14,9 +13,9 @@ let observer = null;
 // Reemplazá con tus videos reales
 const videos = ref([
     {
-        tipo: 'local',
-        src: Presentacion,
-        titulo: 'Entrevista - Turismo 365',
+        tipo: 'youtube',
+        src: 'hG6L4EjAp5M',
+        titulo: 'Entrevista - Radio Mitre',
     },
     {
         tipo: 'youtube',
@@ -29,8 +28,8 @@ const videos = ref([
         titulo: 'Saludos - Chile',
     },
     {
-        tipo: 'local',
-        src: PabloGamba,
+        tipo: 'youtube',
+        src: '7Q215dG-Pjg',
         titulo: 'Malacara- Pablo Gamba',
     },
 ]);

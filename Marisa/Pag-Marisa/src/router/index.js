@@ -1,19 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
-// Importa tus componentes/vistas
 import HomeView from '../views/HomeView.vue'
-import GaleriaCompleta from '../views/GaleriaCompleta.vue'
+import EstudiantilesView from '../views/EstudiantilesView.vue'
+import GaleriaView from '../views/GaleriaView.vue'
 
-// Define las rutas
 const routes = [
-    { path: '/', component: HomeView},
-    { path: '/galeria', component: GaleriaCompleta}
+    { path: '/', component: HomeView },
+    { path: '/estudiantiles', component: EstudiantilesView },
+    { path: '/galeria', component: GaleriaView }, // ← nueva
 ]
 
-// Crea el router
-const router = createRouter({
-    history: createWebHistory(), // Usa URLs limpias (sin #)
+export default createRouter({
+    history: createWebHistory(),
     routes
 })
-
-export default router

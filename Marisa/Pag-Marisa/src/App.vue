@@ -1,48 +1,9 @@
 <!-- App.vue -->
 <script setup>
-import { ref } from 'vue';
-import FlipCard from './component/FlipCard.vue';
-import NavbarComponent from './component/NavbarComponent.vue';
-import ExperienciaComponent from './component/ExperienciaComponent.vue';
-import DondeIrComponent from './component/DondeIrComponent.vue';
-import MiMalargueComponent from './component/MiMalargueComponent.vue';
-import EnlacesInteres from './component/EnlacesInteres.vue';
-import FooterComponent from './component/footerComponent.vue';
-import EstrelladaComponent from './component/EstrelladaComponent.vue';
-
-// Fix: showIntro se controla aquí y se pasa al FlipCard
-const showIntro = ref(true);
-
-const handleIntroClose = () => {
-  showIntro.value = false;
-};
 </script>
 
 <template>
-  <div id="app">
-    <!-- Carta introductoria -->
-    <FlipCard v-if="showIntro" @close="handleIntroClose" />
-
-    <!-- Contenido principal -->
-    <div v-show="!showIntro" class="main-content">
-      <NavbarComponent />
-      <section id="experiencia">
-        <ExperienciaComponent />
-      </section>
-      <section id="dondeir">
-        <DondeIrComponent />
-      </section>
-      <section id="mimalargue">
-        <MiMalargueComponent />
-      </section>
-      <section id="links">
-        <EnlacesInteres />
-      </section>
-      <footer>
-        <FooterComponent />
-      </footer>
-    </div>
-  </div>
+  <RouterView />
 </template>
 
 <style>
@@ -113,8 +74,8 @@ h3 {
   text-transform: uppercase;
 }
 
-p{
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+p {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   letter-spacing: 1px;
   line-height: 1.5;
   font-style: italic;
