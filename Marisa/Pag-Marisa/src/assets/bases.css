@@ -64,7 +64,7 @@ body {
     /* Asegura que el body ocupe al menos la altura total de la ventana */
     color: var(--vt-c-divider-light-2);
     /* Establece el color del texto usando una variable CSS */
-    background: var(--vt-c-indigo);
+    background: var(--arena);
     /* Establece el color de fondo usando una variable CSS */
     transition:
         color 0.5s,
@@ -121,8 +121,8 @@ h4 {
     color: var(--vt-c-text-dark-2);
     padding: 1rem;
     font-weight: bolder;
-}
 
+}
 
 
 li {

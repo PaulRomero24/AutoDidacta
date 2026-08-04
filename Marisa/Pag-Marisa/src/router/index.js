@@ -11,5 +11,27 @@ const routes = [
 
 export default createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        // Si viene con hash, scroll a esa sección
+        if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth',
+                top: 80
+            }
+        }
+
+        // Si hay posición guardada (botón atrás del browser), la restaura
+        if (savedPosition) {
+            return savedPosition
+        }
+
+        // Solo scrollea arriba si viene del home hacia otra página
+        if (from.path === '/' && to.path !== '/') {
+            return { top: 0 }  // sin smooth para que no se note
+        }
+
+        return false  // ← no hace nada, deja la posición como está
+    }
 })

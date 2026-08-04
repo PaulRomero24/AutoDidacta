@@ -6,10 +6,10 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const navegacion = ref([
-    { id: 1, nombre: "Experiencia", enlace: "#experiencia" },
-    { id: 2, nombre: "¿Dónde ir?", enlace: "#dondeir" },
-    { id: 3, nombre: "Mi Malargüe", enlace: "#mimalargue" },
-    { id: 4, nombre: "Enlaces de interés", enlace: "#links" },
+    { id: 1, nombre: "Experiencia", enlace: "/#experiencia" },
+    { id: 2, nombre: "¿Dónde ir?", enlace: "/#dondeir" },
+    { id: 3, nombre: "Mi Malargüe", enlace: "/#mimalargue" },
+    { id: 4, nombre: "Enlaces", enlace: "/#links" },
 ]);
 
 const menuVisible = ref(false);
@@ -29,8 +29,11 @@ const irEstudiantiles = () => {
 };
 
 const irWhatsApp = () => {
-    window.open('https://wa.me/5402600000000?text=Hola%20Marisa!%20Quisiera%20consultar%20disponibilidad.', '_blank');
-    closeMenu();
+const codigoOrigen = "[WEB-MARISA]";
+const texto = `${codigoOrigen} ¡Hola Marisa! quisiera consultar disponibilidad y precios de guiadas.`;
+
+const url = `https://wa.me/5492604604130?text=${encodeURIComponent(texto)}`;
+window.open(url, '_blank');
 };
 
 const abrirGaleria = () => {
@@ -104,7 +107,7 @@ onUnmounted(() => {
                         <button class="dropdown-item" @click="irEstudiantiles">
                             <span class="item-icono">🎒</span>
                             <div class="item-texto">
-                                <span class="item-titulo">Estudiantiles</span>
+                                <span class="item-titulo">Educativos</span>
                                 <span class="item-desc">Excursiones para grupos escolares</span>
                             </div>
                         </button>

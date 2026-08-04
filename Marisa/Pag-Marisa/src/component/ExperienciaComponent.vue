@@ -38,7 +38,7 @@ const closeExpanded = () => {
             <div class="texto-contenido">
                 <h2>Mi carrera como guía de turismo</h2>
                 <p>
-                    Me recibí como guía en el 2001, estuve guiando desde entonces. Me gustaba tanto el oficio, que creé
+                    Me recibí como guía en el 2002, estuve guiando desde entonces. Me gustaba tanto el oficio, que creé
                     una agencia de turismo, pero con el tiempo me di cuenta que mi lugar era estar en los lugares, y no
                     en la ciudad. <br>Así que volví al ruedo, ahí compartí hermosos momentos con muchos colegas y aprendí un
                     montón de los experimentados. Hoy en dia tengo la fortuna de compartir este trabajo con mi hijo.

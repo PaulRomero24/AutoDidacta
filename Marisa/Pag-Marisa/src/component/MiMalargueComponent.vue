@@ -45,10 +45,10 @@ const abrirGaleria = () => {
 <style scoped>
 .mini-galeria {
     width: 100%;
-    max-width: 1000px;
     margin: 3rem auto;
-    padding: 0 1.5rem;
+    padding: 0 1.5rem 2rem 1.5rem;
     text-align: center;
+    background: var(--arena);
 }
 
 .mini-galeria h2 {

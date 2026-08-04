@@ -1,6 +1,7 @@
 <script setup>
 
-
+import PabloGamba from '@/assets/Videos/Pablo-Gamba.mp4';
+import Presentacion from '@/assets/Videos/Presentacion.mp4';
 
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 
@@ -13,9 +14,9 @@ let observer = null;
 // Reemplazá con tus videos reales
 const videos = ref([
     {
-        tipo: 'youtube',
-        src: 'hG6L4EjAp5M',
-        titulo: 'Entrevista - Radio Mitre',
+        tipo: 'local',
+        src: Presentacion,
+        titulo: 'Presentacion - Direccion de Turismo de Malargüe',
     },
     {
         tipo: 'youtube',
@@ -28,8 +29,8 @@ const videos = ref([
         titulo: 'Saludos - Chile',
     },
     {
-        tipo: 'youtube',
-        src: '7Q215dG-Pjg',
+        tipo: 'local',
+        src: PabloGamba,
         titulo: 'Malacara- Pablo Gamba',
     },
 ]);
@@ -42,7 +43,7 @@ const youtubeUrl = computed(() => {
 });
 
 const toggleExpandido = () => {
-    expandido.value = !expandido.value;
+    expandido.value =! expandido.value;
     if (!expandido.value && videoRef.value) {
         videoRef.value.pause();
     }
@@ -84,12 +85,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="video-widget" :class="{ expandido }" ref="containerRef">
+    <div class="video-widget" :class="{ expandido }" ref="containerRef"  @click="toggleExpandido">
         <!-- Cabecera siempre visible — click para expandir -->
         <p class="widget-label">Entrevistas</p>
-        <div class="widget-header" @click="toggleExpandido">
+        <div class="widget-header">
             <span class="play-icon">{{ expandido ? '▼' : '▶' }}</span>
-            <span class="widget-titulo">{{ videoActual.titulo }}</span>
+            <span class="widget-titulo" :class="{expandido}">{{ videoActual.titulo }}</span>
             <span class="contador">{{ indiceActual + 1 }}/{{ videos.length }}</span>
         </div>
 
@@ -153,9 +154,9 @@ onUnmounted(() => {
 
 /* Expandido */
 .video-widget.expandido {
-    width: 520px;
+    width: 720px;
     bottom: -180px;
-    cursor: default;
+    cursor: pointer;
 }
 
 /* Header */
@@ -186,6 +187,13 @@ onUnmounted(() => {
     flex: 1;
 }
 
+.widget-titulo.expandido {
+    font-size: 1.1rem;
+    color: var(--arena);
+    white-space: normal;
+    text-align: center;
+}
+
 .contador {
     font-family: var(--font-cuerpo);
     font-size: 0.7rem;
@@ -202,7 +210,7 @@ onUnmounted(() => {
 }
 
 .video-widget.expandido .widget-body {
-    max-height: 400px;
+    max-height: 600px;
 }
 
 /* Player */
