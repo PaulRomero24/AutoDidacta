@@ -5,11 +5,19 @@ import { ref } from 'vue';
 
 import malargueicon from "../assets/svg/malargue_marca-1.png";
 import clima from "../assets/svg/clima.png";
-
+import destino from "../assets/svg/destino_malargue.svg";
+import servicios from "@/assets/Lugares/Servicios.jpg";
 
 
 //Lista de sitios
 const enlaces = ref([
+    {
+        nombre: "Mis servicios",
+        src: servicios,
+        descripcion: "Por si quieres conocer sobre guiadas educacionales,visitas guiadas particulares o en caravana.",
+        enlace: "/estudiantiles"
+    },
+
     {
         nombre: "Municipalidad de Malargue",
         src: malargueicon,
@@ -21,9 +29,16 @@ const enlaces = ref([
     {
         nombre: "Clima",
         src: clima,
-        descripcion: "Por si tienes dudas de si tu visita te espera buen clima. ",
+        descripcion: "Por si tienes dudas de si en tu visita te espera buen clima. ",
         enlace: "https://www.meteored.com.ar/tiempo-en_Malargue-America+Sur-Argentina-Mendoza-SAMM-1-16758.html"
     },
+
+    {
+        nombre: "Destino Malargüe",
+        src: destino,
+        descripcion: "Portal de turismo de Malargüe, con información sobre actividades, alojamientos y eventos.",
+        enlace: "https://destinomalargue.com/es"
+    }
 ])
 </script>
 
@@ -87,7 +102,7 @@ const enlaces = ref([
 }
 
 .enlaces-icons {
-    width: 120px;
+    width: 240px;
     height: 120px;
     object-fit: contain;
     margin-bottom: 0.8rem;

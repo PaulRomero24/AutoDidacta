@@ -1,13 +1,16 @@
 <!-- src/components/MiniGaleria.vue -->
 <script setup>
+
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 // Importa 4-6 fotos representativas
 import caverna1 from "../assets/Lugares/Caverna1.jpg";
 import payunia1 from "../assets/Lugares/Payunia1.jpg";
 import valles1 from "../assets/Lugares/Valles1.jpg";
 import malacara1 from "../assets/Lugares/Malacara1.jpg";
-import GaleriaCompleta from '@/views/GaleriaCompleta.vue';
+import GaleriaView from '../views/GaleriaView.vue';
 
 const miniFotos = ref([
     caverna1,
@@ -30,7 +33,7 @@ const abrirGaleria = () => {
             <img v-for="(foto, index) in miniFotos" :key="index" :src="foto" :alt="`Foto ${index + 1}`"
                 class="mini-img" />
         </div>
-        <button @click="abrirGaleria" class="btn-galeria">
+        <button @click="router.push('/galeria')" class="btn-galeria">
             Ver galería completa
         </button>
 
@@ -42,10 +45,10 @@ const abrirGaleria = () => {
 <style scoped>
 .mini-galeria {
     width: 100%;
-    max-width: 1000px;
     margin: 3rem auto;
-    padding: 0 1.5rem;
+    padding: 0 1.5rem 2rem 1.5rem;
     text-align: center;
+    background: var(--arena);
 }
 
 .mini-galeria h2 {
@@ -56,22 +59,22 @@ const abrirGaleria = () => {
 
 .mini-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(224px, 1fr));
+    gap: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
 .mini-img {
     width: 100%;
-    height: 120px;
+    height: 224px;
     object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.5s;
 }
 
 .mini-img:hover {
-    transform: scale(1.05);
+    transform: scale(1.5);
 }
 
 .btn-galeria {
@@ -79,7 +82,7 @@ const abrirGaleria = () => {
     color: white;
     border: none;
     padding: 0.8rem 2rem;
-    font-size: 1.1rem;
+    font-size: 2rem;
     border-radius: 30px;
     cursor: pointer;
     transition: background 0.3s;

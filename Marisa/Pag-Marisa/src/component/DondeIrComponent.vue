@@ -33,7 +33,7 @@ const lugares = ref([
         descripcion: `Caverna de las brujas es un lugar lleno de magia y belleza. Acá hacemos un recorrido dentro de una caverna moldeada por el tiempo, que se divide en diferentes salas.
 
         EXPLICACION OFICIAL:
-        La caverna se encuentra sobre una formación jurásica de rocas calcáreas de origen marino. En los alrededores de la entrada se encuentran estratos expuestos con evidencia fósil de moluscos gasterópodos, especies dominantes en el jurásico y en cretácico. Las formas de las diversas galerías de la caverna se formaron por la acción del agua sobre rocas calcáreas, que ha erosionado profundas galerías subterráneas y creado, mediante el depósito de los materiales salinos en estado de disolución, diversas formas muy singulares de estalactitas, estalagmitas, velos, columnas, formaciones coralinas, etc. Algunos de los sitios que el turista visita son la Sala de la Virgen, La Gatera, La Sala de la Estalagmita Gigante y Sala de los Encuentros.
+        La caverna se encuentra sobre una formación jurásica de rocas calcáreas de origen marino. En los alrededores de la entrada se encuentran estratos expuestos con evidencia fósil de moluscos gasterópodos, especies dominantes en el jurásico y en cretácico. Las formas de las diversas galerías de la caverna se formaron por la acción del agua sobre rocas calcáreas, que ha erosionado profundas galerías subterráneas y creado, mediante el depósito de los materiales salinos en estado de disolución, diversas formas muy singulares de estalactitas, estalagmitas, velos, columnas, formaciones coralinas, etc. Algunos de los sitios que el turista visita son la Sala de la Virgen, la Gatera,la sala de El "Chancho", la Sala de la Estalagmita Gigante y Sala de los Encuentros.
         `,
         imagenes: [caverna1, caverna2]
     },
@@ -114,13 +114,14 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
     max-width: 1600px;
     /* ← Añade padding horizontal aquí */
     margin: 2rem auto;
+    margin-top: 20px;
 }
 
 .lugar-card {
     position: relative;
     padding: 5rem 4rem;
     background: var(--arena);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 2px rgba(228, 222, 222);
     /* sin border-radius para que llegue a los bordes */
     width: 100vw;
     margin-left: calc(-50vw + 50%);

@@ -23,6 +23,7 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+src/assets/Videos/
 
 *.tsbuildinfo
 

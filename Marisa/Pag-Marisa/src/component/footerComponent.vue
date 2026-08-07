@@ -12,6 +12,23 @@ const redes = ref([
     { nombre: "TikTok", svg: tiktok, enlace: "https://tiktok.com/@tu-perfil" },
     { nombre: "Email", svg: email, enlace: "mailto:tucorreo@ejemplo.com" }
 ]);
+// Función única que rastrea e interactúa según la red
+const trackearRedSocial = (red) => {
+    // Registra el evento usando el nombre de la red (Instagram, Facebook, etc.)
+    if (window.gtag) {
+        window.gtag('event', 'clic_red_social', {
+            'event_category': 'Redes Sociales',
+            'event_label': `Footer - ${red.nombre}`
+        })
+    }
+
+    // Abre el enlace
+    if (red.enlace.startsWith('mailto:')) {
+        window.location.href = red.enlace
+    } else {
+        window.open(red.enlace, '_blank')
+    }
+}
 </script>
 
 <template>
@@ -20,12 +37,13 @@ const redes = ref([
             <h4>Mis redes</h4>
             <ul class="redes">
                 <li v-for="red in redes" :key="red.nombre">
-                    <a :href="red.enlace" target="_blank" rel="noopener noreferrer" :aria-label="red.nombre">
+                    <a :href="red.enlace" target="_blank" rel="noopener noreferrer" @click.prevent="trackearRedSocial(red)" :aria-label="red.nombre">
                         <img :src="red.svg" :alt="`Icono de ${red.nombre}`" />
                     </a>
+                    <span>{{ red.nombre }}</span>
                 </li>
             </ul>
-                <p>Todos los derechos reservados</p>
+            <p>Todos los derechos reservados</p>
         </div>
     </footer>
 </template>
@@ -54,7 +72,7 @@ const redes = ref([
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 2.5rem;
+    gap: 4rem;
     padding: 1rem;
     margin: 0;
 }
@@ -62,7 +80,12 @@ const redes = ref([
 .redes li {
     display: block;
 }
-
+.redes span {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #182019;
+}
 .redes img {
     width: 45px;
     height: 45px;

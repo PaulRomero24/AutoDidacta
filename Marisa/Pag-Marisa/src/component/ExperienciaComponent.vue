@@ -7,6 +7,7 @@ import experiencia2 from "../assets/experiencias/experiencia2.jpg"
 import experiencia3 from "../assets/experiencias/experiencia3.jpg"
 import experiencia4 from "../assets/experiencias/experiencia4.jpg"
 import experiencia5 from "../assets/experiencias/experiencia5.jpg"
+import EstrelladaComponent from './EstrelladaComponent.vue';
 
 const expandedImage = ref('');
 const showExpanded = ref(false);
@@ -37,7 +38,7 @@ const closeExpanded = () => {
             <div class="texto-contenido">
                 <h2>Mi carrera como guía de turismo</h2>
                 <p>
-                    Me recibí como guía en el 2001, estuve guiando desde entonces. Me gustaba tanto el oficio, que creé
+                    Me recibí como guía en el 2002, estuve guiando desde entonces. Me gustaba tanto el oficio, que creé
                     una agencia de turismo, pero con el tiempo me di cuenta que mi lugar era estar en los lugares, y no
                     en la ciudad. <br>Así que volví al ruedo, ahí compartí hermosos momentos con muchos colegas y aprendí un
                     montón de los experimentados. Hoy en dia tengo la fortuna de compartir este trabajo con mi hijo.
@@ -59,6 +60,7 @@ const closeExpanded = () => {
                 @click.stop="openImage(imagenes.centerBottom)" alt="Mi hijo,quien me siguio los pasos" />
             </div>
         </div>
+        <EstrelladaComponent />
     </section>
     <!-- Lightbox -->
     <div v-if="showExpanded" class="lightbox" @click.stop="closeExpanded">
@@ -73,13 +75,13 @@ const closeExpanded = () => {
     /* ← Más espacio arriba/abajo y laterales */
     max-width: 1428px;
     /* ← Un poco más ancho */
-    margin: 4rem auto;
+    margin: 5rem auto;
     /* ← Margen superior/inferior para separar de otras secciones */
     overflow: visible;
 }
 
 /* Contenedor que agrupa texto + imágenes */
-.contenido-con-imagenes {
+.contenido-con-imagenes{
     position: relative;
     padding: 5rem 4rem;
     background: var(--arena);
@@ -87,6 +89,7 @@ const closeExpanded = () => {
     /* sin border-radius para que llegue a los bordes */
     width: 100vw;
     margin-left: calc(-50vw + 50%); /* ← truco para romper el max-width del padre */
+    margin-bottom: 0;
 }
 
 .texto-contenido h2 {
@@ -106,7 +109,7 @@ const closeExpanded = () => {
 }
 
 /* Imágenes en esquinas - con transform para separarlas */
-.corner-img {
+.corner-img{
     position: absolute;
     width: 200px;
     height: 200px;
@@ -151,7 +154,7 @@ const closeExpanded = () => {
 
 /* Imagen central - dentro del contenedor */
 .center-bottom {
-    bottom: -80px;
+    top: -50px;
     /* ← Ajusta este valor según necesites */
     left: 50%;
     transform: translateX(-50%);
@@ -165,6 +168,14 @@ const closeExpanded = () => {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     z-index: 2;
 }
+.estrellada {
+    bottom: 0; /* ← en lugar de -50px */
+    position: relative; /* ← sacala del flujo absoluto */
+    transform: none;
+    margin: 0 auto;
+    display: block;
+}
+
 
 /* Lightbox completo */
 .lightbox {

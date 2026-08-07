@@ -1,42 +1,50 @@
+<!-- App.vue -->
 <script setup>
-import { ref } from 'vue'
-const flipped = ref(false)
+import { ref } from 'vue';
+import FlipCard from '../component/FlipCard.vue';
+import NavbarComponent from '../component/NavbarComponent.vue';
+import ExperienciaComponent from '../component/ExperienciaComponent.vue';
+import DondeIrComponent from '../component/DondeIrComponent.vue';
+import MiMalargueComponent from '../component/MiMalargueComponent.vue';
+import EnlacesInteres from '../component/EnlacesInteres.vue';
+import FooterComponent from '../component/footerComponent.vue';
+
+
+// Después — solo muestra la carta si es la primera vez
+const showIntro = ref(!sessionStorage.getItem('introVista'))
+
+const handleIntroClose = () => {
+    showIntro.value = false
+    sessionStorage.setItem('introVista', 'true')
+}
 </script>
 
 <template>
-    <div
-        style="perspective: 1000px; display:flex; justify-content:center; align-items:center; height:100vh; background:#111;">
-        <div @click="flipped = !flipped" :style="{
-            width: '300px',
-            height: '400px',
-            position: 'relative',
-            transformStyle: 'preserve-3d',
-            transition: 'transform 0.8s',
-            transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-            cursor: 'pointer'
-        }">
-            <!-- FRENTE -->
-            <div :style="{
-                position: 'absolute', inset: 0,
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden',
-                background: 'green',
-                borderRadius: '12px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'white', fontSize: '2rem'
-            }">FRENTE</div>
+    <div id="app">
+        <!-- Carta introductoria -->
+        <FlipCard v-if="showIntro" @close="handleIntroClose" />
 
-            <!-- REVERSO -->
-            <div :style="{
-                position: 'absolute', inset: 0,
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden',
-                transform: 'rotateY(180deg)',
-                background: 'brown',
-                borderRadius: '12px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'white', fontSize: '2rem'
-            }">REVERSO</div>
+        <!-- Contenido principal -->
+        <div v-show="!showIntro" class="main-content">
+            <NavbarComponent />
+            <section id="experiencia">
+                <ExperienciaComponent />
+            </section>
+            <section id="dondeir">
+                <DondeIrComponent />
+            </section>
+            <section id="mimalargue">
+                <MiMalargueComponent />
+            </section>
+            <section id="links">
+                <EnlacesInteres />
+            </section>
+            <footer>
+                <FooterComponent />
+            </footer>
         </div>
     </div>
 </template>
+
+<style scoped>
+</style>

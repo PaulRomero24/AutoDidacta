@@ -1,26 +1,59 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const navegacion = ref([
-    { id: 1, nombre: "Experiencia", enlace: "#experiencia" },
-    { id: 2, nombre: "¿Dónde ir?", enlace: "#dondeir" },
-    { id: 3, nombre: "Mi Malargüe", enlace: "#mimalargue" },
-    { id: 4, nombre: "Enlaces de interés", enlace: "#links" },
+    { id: 1, nombre: "Experiencia", enlace: "/#experiencia" },
+    { id: 2, nombre: "¿Dónde ir?", enlace: "/#dondeir" },
+    { id: 3, nombre: "Mi Malargüe", enlace: "/#mimalargue" },
+    { id: 4, nombre: "Enlaces", enlace: "/#links" },
 ]);
 
 const menuVisible = ref(false);
+const contactoVisible = ref(false);
 const scrolled = ref(false);
 const activeSection = ref('');
 
 const toggleMenu = () => { menuVisible.value = !menuVisible.value; };
-const closeMenu = () => { menuVisible.value = false; };
+const closeMenu = () => { menuVisible.value = false; contactoVisible.value = false; };
+const toggleContacto = () => { contactoVisible.value = !contactoVisible.value; };
+const closeContacto = () => { contactoVisible.value = false; };
+
+// Opciones del dropdown
+const irEstudiantiles = () => {
+    router.push('/estudiantiles');
+    closeMenu();
+};
+
+const irWhatsApp = () => {
+    // 1. Registrás el evento en Google Analytics usando window.gtag
+    if (window.gtag) {
+        window.gtag('event', 'clic_whatsapp', {
+            'event_category': 'Contacto',
+            'event_label': 'Boton WhatsApp Principal'
+        });
+    }
+
+    // 2. Abrís WhatsApp normalmente
+    const telefono = '5492604604130';
+    const mensaje = encodeURIComponent('Hola Marisa! Vengo desde la página para consultar disponibilidad.');
+
+    window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
+    closeMenu();
+};
+const abrirGaleria = () => {
+    // TODO: abrir modal de subida de foto
+    // Por ahora emitimos un evento
+    closeMenu();
+};
 
 const handleScroll = () => {
     scrolled.value = window.scrollY > 60;
-    // Detectar sección activa
     const sections = ['experiencia', 'dondeir', 'mimalargue', 'links'];
-    for (const id of sections.reverse()) {
+    for (const id of [...sections].reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 120) {
             activeSection.value = `#${id}`;
@@ -29,8 +62,21 @@ const handleScroll = () => {
     }
 };
 
-onMounted(() => window.addEventListener('scroll', handleScroll));
-onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+// Cerrar dropdown al hacer click fuera
+const handleClickOutside = (e) => {
+    if (!e.target.closest('.contacto-wrapper')) {
+        contactoVisible.value = false;
+    }
+};
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('click', handleClickOutside);
+});
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <template>
@@ -56,10 +102,40 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
                         {{ nav.nombre }}
                     </a>
                 </li>
-                <li>
-                    <a href="mailto:marisa@ejemplo.com" class="nav-cta" @click="closeMenu">
+
+                <!-- Botón Contacto con dropdown -->
+                <li class="contacto-wrapper">
+                    <button class="nav-cta" @click.stop="toggleContacto">
                         Contacto
-                    </a>
+                        <span class="cta-arrow" :class="{ rotado: contactoVisible }">▾</span>
+                    </button>
+
+                    <!-- Dropdown -->
+                    <div class="contacto-dropdown" :class="{ visible: contactoVisible }">
+                        <button class="dropdown-item" @click="irEstudiantiles">
+                            <span class="item-icono">🎒</span>
+                            <div class="item-texto">
+                                <span class="item-titulo">Servicios</span>
+                                <span class="item-desc">Excursiones para grupos cerrados</span>
+                            </div>
+                        </button>
+
+                        <button class="dropdown-item" @click="irWhatsApp">
+                            <span class="item-icono">💬</span>
+                            <div class="item-texto">
+                                <span class="item-titulo">Disponibilidad</span>
+                                <span class="item-desc">Consultá fechas y precios</span>
+                            </div>
+                        </button>
+
+                        <button class="dropdown-item" @click="abrirGaleria">
+                            <span class="item-icono">📸</span>
+                            <div class="item-texto">
+                                <span class="item-titulo">Participar en la galería</span>
+                                <span class="item-desc">Mandá tu foto de Malargüe</span>
+                            </div>
+                        </button>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -101,7 +177,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Logo */
 .navbar-logo {
     display: flex;
     align-items: center;
@@ -123,7 +198,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
     color: var(--verde-claro);
 }
 
-/* Lista de nav */
 .nav-list {
     display: flex;
     list-style: none;
@@ -166,8 +240,15 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
     transform: scaleX(1);
 }
 
+/* ===== CONTACTO WRAPPER ===== */
+.contacto-wrapper {
+    position: relative;
+}
+
 .nav-cta {
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-family: var(--font-cuerpo);
     font-size: 0.78rem;
     letter-spacing: 0.12em;
@@ -177,6 +258,8 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
     padding: 8px 20px;
     border-radius: 30px;
     margin-left: 8px;
+    border: none;
+    cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 12px rgba(212, 169, 106, 0.3);
 }
@@ -186,7 +269,88 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
     box-shadow: 0 6px 20px rgba(212, 169, 106, 0.4);
 }
 
-/* Hamburguesa */
+.cta-arrow {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.cta-arrow.rotado {
+    transform: rotate(180deg);
+}
+
+/* ===== DROPDOWN ===== */
+.contacto-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 260px;
+    background: rgba(13, 26, 13, 0.97);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(212, 169, 106, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1000;
+}
+
+.contacto-dropdown.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.dropdown-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(212, 169, 106, 0.08);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: rgba(212, 169, 106, 0.08);
+}
+
+.item-icono {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.item-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item-titulo {
+    font-family: var(--font-cuerpo);
+    font-size: 0.85rem;
+    color: var(--arena);
+    letter-spacing: 0.05em;
+}
+
+.item-desc {
+    font-family: var(--font-cuerpo);
+    font-size: 0.72rem;
+    color: rgba(245, 240, 232, 0.45);
+}
+
+/* ===== HAMBURGUESA ===== */
 .menu-toggle {
     display: none;
     position: fixed;
@@ -224,7 +388,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
     transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Overlay */
 .overlay {
     position: fixed;
     inset: 0;
@@ -263,6 +426,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
         z-index: 900;
         border-left: 1px solid rgba(212, 169, 106, 0.15);
         box-shadow: -10px 0 40px rgba(0, 0, 0, 0.4);
+        overflow-y: auto;
     }
 
     .navbar.open .nav-list {
@@ -276,9 +440,29 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     .nav-cta {
         margin-left: 0;
-        text-align: center;
         width: 100%;
+        justify-content: center;
         padding: 12px 20px;
+    }
+
+    /* Dropdown en móvil va hacia abajo sin absolute */
+    .contacto-dropdown {
+        position: static;
+        width: 100%;
+        transform: none;
+        border-radius: 8px;
+        margin-top: 8px;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .contacto-dropdown.visible {
+        opacity: 1;
+        max-height: 300px;
+        pointer-events: all;
+        transform: none;
     }
 }
 </style>

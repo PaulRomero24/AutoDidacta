@@ -1,7 +1,7 @@
 /* Estilos base */
 #app {
     margin: 0 auto;
-    padding: 0.5rem;
+    padding: 1rem;
     font-weight: normal;
     background-color: var(--vt-c-indigo);
     box-sizing: border-box;
