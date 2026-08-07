@@ -29,13 +29,21 @@ const irEstudiantiles = () => {
 };
 
 const irWhatsApp = () => {
-const codigoOrigen = "[WEB-MARISA]";
-const texto = `${codigoOrigen} ¡Hola Marisa! quisiera consultar disponibilidad y precios de guiadas.`;
+    // 1. Registrás el evento en Google Analytics usando window.gtag
+    if (window.gtag) {
+        window.gtag('event', 'clic_whatsapp', {
+            'event_category': 'Contacto',
+            'event_label': 'Boton WhatsApp Principal'
+        });
+    }
 
-const url = `https://wa.me/5492604604130?text=${encodeURIComponent(texto)}`;
-window.open(url, '_blank');
+    // 2. Abrís WhatsApp normalmente
+    const telefono = '5492604604130';
+    const mensaje = encodeURIComponent('Hola Marisa! Vengo desde la página para consultar disponibilidad.');
+
+    window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
+    closeMenu();
 };
-
 const abrirGaleria = () => {
     // TODO: abrir modal de subida de foto
     // Por ahora emitimos un evento
@@ -107,8 +115,8 @@ onUnmounted(() => {
                         <button class="dropdown-item" @click="irEstudiantiles">
                             <span class="item-icono">🎒</span>
                             <div class="item-texto">
-                                <span class="item-titulo">Educativos</span>
-                                <span class="item-desc">Excursiones para grupos escolares</span>
+                                <span class="item-titulo">Servicios</span>
+                                <span class="item-desc">Excursiones para grupos cerrados</span>
                             </div>
                         </button>
 

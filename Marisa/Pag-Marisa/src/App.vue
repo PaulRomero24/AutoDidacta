@@ -15,7 +15,7 @@
   --verde-medio: #2d4a2d;
   --verde-claro: #4a7c4a;
   --tierra: #8B4513;
-  --tierra-claro: #A0522D;
+  --tierra-claro: #a0852dcc;
   --arena: #ebc07f;
   --arena-claro: #E8C98A;
   --humo: #F5F0E8;

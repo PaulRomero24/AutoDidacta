@@ -2,75 +2,56 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+
+import caverna from '@/assets/Lugares/Caverna-Guiadas.jpg';
+import payunia from '@/assets/Lugares/Payunia-Guiadas.jpg';
+import valles from '@/assets/Lugares/Valles-Guiadas.jpg';
+import malacara from '@/assets/Lugares/Malacara-Guiadas.jpg';
+
 const router = useRouter();
 
 const recorridos = ref([
     {
         nombre: 'Caverna de las Brujas',
         descripcion: 'Un recorrido único bajo la tierra, explorando formaciones de estalactitas y estalagmitas en un ambiente controlado y seguro para grupos escolares.',
-        duracion: '3 horas',
+        duracion: '2 horas',
         dificultad: 'Baja',
-        edad: 'Desde 8 años',
-        img: null, // reemplazá con: import img from '../assets/...'
+        edad: 'Desde 7 años',
+        img: caverna, // reemplazá con: import img from '../assets/...'
     },
     {
         nombre: 'Reserva Natural Payunia',
         descripcion: 'La mayor concentración de volcanes del mundo. Una experiencia geológica y paisajística incomparable, ideal para ciencias naturales y geografía.',
         duracion: 'Día completo',
         dificultad: 'Media',
-        edad: 'Desde 12 años',
-        img: null,
+        edad: 'Todo el publico',
+        img: payunia,
     },
     {
         nombre: 'Circuito de los Valles',
-        descripcion: 'Recorrido por la Niña Encantada, Pozo de las Ánimas y Termas de los Molles. Historia, geología y naturaleza en un solo día.',
+        descripcion: 'Recorrido por la Niña Encantada, Pozo de las Ánimas y Valles de las Leñas. Historia, geología y naturaleza en un solo día.',
         duracion: 'Día completo',
         dificultad: 'Baja',
         edad: 'Desde 6 años',
-        img: null,
+        img: valles,
     },
     {
         nombre: 'Malacara',
         descripcion: 'Paisajes volcánicos únicos del sur mendocino. Perfecto para actividades de educación ambiental y contacto con la naturaleza patagónica.',
         duracion: 'Medio día',
         dificultad: 'Baja',
-        edad: 'Desde 8 años',
-        img: null,
+        edad: 'Desde 7 años',
+        img: malacara,
     },
 ]);
 
 const servicios = ref([
-    { icono: '🧭', titulo: 'Guía Profesional', descripcion: 'Más de 25 años de experiencia guiando grupos estudiantiles en Malargüe.' },
-    { icono: '🚌', titulo: 'Transporte', descripcion: 'Coordinación con transporte habilitado para grupos escolares.' },
-    { icono: '🛡️', titulo: 'Seguro de excursión', descripcion: 'Cobertura completa para todos los participantes durante el recorrido.' },
-    { icono: '🍱', titulo: 'Almuerzo', descripcion: 'Opciones de almuerzo incluidas o coordinadas según el paquete elegido.' },
+    { icono: '🧭', titulo: 'Guía Profesional', descripcion: 'Más de 25 años de experiencia guiando grupos en Malargüe.' },
+    { icono: '🚌', titulo: 'Transporte', descripcion: 'Coordinación con transporte habilitados para grupos.' },
+    { icono: '🍱', titulo: 'Almuerzo', descripcion: 'Opciones de almuerzo incluidas o coordinadas.' },
     { icono: '📋', titulo: 'Material educativo', descripcion: 'Información didáctica adaptada al nivel escolar del grupo.' },
-    { icono: '📸', titulo: 'Registro fotográfico', descripcion: 'Documentación del recorrido para la institución educativa.' },
 ]);
 
-const paquetes = ref([
-    {
-        nombre: 'Paquete Básico',
-        precio: 'Consultar',
-        duracion: 'Medio día',
-        incluye: ['Guía profesional', 'Seguro de excursión', 'Material educativo'],
-        destacado: false,
-    },
-    {
-        nombre: 'Paquete Completo',
-        precio: 'Consultar',
-        duracion: 'Día completo',
-        incluye: ['Guía profesional', 'Transporte coordinado', 'Seguro de excursión', 'Almuerzo', 'Material educativo', 'Registro fotográfico'],
-        destacado: true,
-    },
-    {
-        nombre: 'Paquete Multi-día',
-        precio: 'Consultar',
-        duracion: '2-3 días',
-        incluye: ['Todo lo del paquete completo', 'Alojamiento coordinado', 'Múltiples destinos', 'Actividades nocturnas'],
-        destacado: false,
-    },
-]);
 
 const formData = ref({
     institucion: '',
@@ -104,18 +85,33 @@ const volverInicio = () => {
             <button class="btn-volver" @click="volverInicio">
                 ← Volver al inicio
             </button>
-            <span class="est-logo">Marisa Berdu — Turismo Estudiantil</span>
+            <span class="est-logo">Marisa Berdu — Guia de Turismo</span>
         </nav>
 
         <!-- Hero -->
         <section class="hero">
             <div class="hero-overlay"></div>
             <div class="hero-content">
-                <span class="hero-badge">Turismo Educativo</span>
-                <h1>Excursiones Estudiantiles<br>en Malargüe</h1>
-                <p>Experiencias únicas diseñadas para grupos escolares. Aprendizaje, aventura y naturaleza en el sur de
+                <span class="hero-badge">Mis servicios</span>
+                <h1>Excursiones Educativas ó Excursiones en Caravanas<br>en Malargüe</h1>
+                <p>Experiencias únicas diseñadas para grupos cerrados. Aprendizaje, aventura y naturaleza en el sur de
                     Mendoza.</p>
-                <a href="#contacto-est" class="hero-cta">Solicitar información</a>
+            </div>
+        </section>
+
+                <!-- Servicios -->
+        <section class="seccion servicios-seccion">
+            <div class="seccion-inner">
+                <h2 class="seccion-titulo">Servicios incluidos</h2>
+                <p class="seccion-subtitulo">Todo lo que necesitas saber sobre mis excursiones</p>
+
+                <div class="servicios-grid">
+                    <div v-for="servicio in servicios" :key="servicio.titulo" class="servicio-item">
+                        <span class="servicio-icono">{{ servicio.icono }}</span>
+                        <h4>{{ servicio.titulo }}</h4>
+                        <p>{{ servicio.descripcion }}</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -123,7 +119,7 @@ const volverInicio = () => {
         <section class="seccion recorridos-seccion">
             <div class="seccion-inner">
                 <h2 class="seccion-titulo">Recorridos disponibles</h2>
-                <p class="seccion-subtitulo">Cada destino adaptado al nivel educativo y las necesidades del grupo</p>
+                <p class="seccion-subtitulo">Cada destino adaptado a las necesidades del grupo</p>
 
                 <div class="recorridos-grid">
                     <div v-for="lugar in recorridos" :key="lugar.nombre" class="recorrido-card">
@@ -137,9 +133,9 @@ const volverInicio = () => {
                             <h3>{{ lugar.nombre }}</h3>
                             <p>{{ lugar.descripcion }}</p>
                             <div class="card-tags">
-                                <span class="tag">⏱ {{ lugar.duracion }}</span>
-                                <span class="tag">📊 {{ lugar.dificultad }}</span>
-                                <span class="tag">👦 {{ lugar.edad }}</span>
+                                <span class="tag">Duracion ⏱ {{ lugar.duracion }}</span>
+                                <span class="tag">Dificultad 📊 {{ lugar.dificultad }}</span>
+                                <span class="tag">Edad 👦 {{ lugar.edad }}</span>
                             </div>
                         </div>
                     </div>
@@ -147,47 +143,7 @@ const volverInicio = () => {
             </div>
         </section>
 
-        <!-- Servicios -->
-        <section class="seccion servicios-seccion">
-            <div class="seccion-inner">
-                <h2 class="seccion-titulo">Servicios incluidos</h2>
-                <p class="seccion-subtitulo">Todo lo que necesita su institución para una excursión exitosa</p>
 
-                <div class="servicios-grid">
-                    <div v-for="servicio in servicios" :key="servicio.titulo" class="servicio-item">
-                        <span class="servicio-icono">{{ servicio.icono }}</span>
-                        <h4>{{ servicio.titulo }}</h4>
-                        <p>{{ servicio.descripcion }}</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Paquetes -->
-        <section class="seccion paquetes-seccion">
-            <div class="seccion-inner">
-                <h2 class="seccion-titulo">Paquetes</h2>
-                <p class="seccion-subtitulo">Opciones flexibles para cada institución</p>
-
-                <div class="paquetes-grid">
-                    <div v-for="paquete in paquetes" :key="paquete.nombre" class="paquete-card"
-                        :class="{ destacado: paquete.destacado }">
-                        <div v-if="paquete.destacado" class="paquete-badge">Más elegido</div>
-                        <h3>{{ paquete.nombre }}</h3>
-                        <div class="paquete-duracion">{{ paquete.duracion }}</div>
-                        <div class="paquete-precio">{{ paquete.precio }}</div>
-                        <ul class="paquete-lista">
-                            <li v-for="item in paquete.incluye" :key="item">
-                                <span class="check">✓</span> {{ item }}
-                            </li>
-                        </ul>
-                        <a href="#contacto-est" class="paquete-cta">
-                            {{ paquete.destacado ? 'Solicitar ahora' : 'Consultar' }}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Formulario de contacto -->
         <section class="seccion contacto-seccion" id="contacto-est">
@@ -206,8 +162,8 @@ const volverInicio = () => {
                 <form class="contacto-form" @submit.prevent="enviarFormulario" v-if="!enviado">
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Institución educativa</label>
-                            <input v-model="formData.institucion" type="text" placeholder="Nombre de la escuela"
+                            <label>Institución</label>
+                            <input v-model="formData.institucion" type="text" placeholder="Nombre de la escuela o institución"
                                 required />
                         </div>
                         <div class="form-group">
@@ -219,7 +175,7 @@ const volverInicio = () => {
                     <div class="form-row">
                         <div class="form-group">
                             <label>Email</label>
-                            <input v-model="formData.email" type="email" placeholder="correo@escuela.com" required />
+                            <input v-model="formData.email" type="email" placeholder="correo@ejemplo.com" required />
                         </div>
                         <div class="form-group">
                             <label>Teléfono</label>
@@ -228,11 +184,11 @@ const volverInicio = () => {
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Cantidad de alumnos</label>
+                            <label>Cantidad de personas</label>
                             <input v-model="formData.cantidadAlumnos" type="number" placeholder="Ej: 30" min="1" />
                         </div>
                         <div class="form-group">
-                            <label>Nivel educativo</label>
+                            <label>Nivel educativo(Solo si es estudiantil)</label>
                             <select v-model="formData.nivelEducativo">
                                 <option value="">Seleccioná...</option>
                                 <option>Primaria</option>
@@ -286,7 +242,7 @@ const volverInicio = () => {
     background: var(--verde-bosque);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content:space-evenly;
     padding: 1rem 2rem;
     border-bottom: 1px solid rgba(212, 169, 106, 0.2);
 }
@@ -321,7 +277,7 @@ const volverInicio = () => {
     position: relative;
     min-height: 480px;
     background:
-        linear-gradient(160deg, var(--verde-bosque) 0%, #2d4a2d 50%, #1a3020 100%);
+        linear-gradient(160deg, var(--verde-claro) 0%, #2d4a2d 50%, #1a3020 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -417,7 +373,7 @@ const volverInicio = () => {
 
 /* ===== RECORRIDOS ===== */
 .recorridos-seccion {
-    background: var(--humo);
+    background: var(--tierra-claro);
 }
 
 .recorridos-grid {
@@ -466,7 +422,7 @@ const volverInicio = () => {
 
 .card-body h3 {
     font-family: var(--font-titulo);
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     color: var(--verde-bosque);
     margin-bottom: 0.5rem;
 }
@@ -475,6 +431,8 @@ const volverInicio = () => {
     font-size: 0.88rem;
     color: var(--texto-medio);
     line-height: 1.6;
+    font-style: italic;
+    font-family: var(--font-cuerpo);
     margin-bottom: 1rem;
 }
 
@@ -541,140 +499,6 @@ const volverInicio = () => {
     font-size: 0.82rem;
     color: rgba(245, 240, 232, 0.65);
     line-height: 1.6;
-}
-
-/* ===== PAQUETES ===== */
-.paquetes-seccion {
-    background: var(--humo-oscuro);
-}
-
-.paquetes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-    align-items: start;
-}
-
-.paquete-card {
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(26, 46, 26, 0.08);
-    position: relative;
-    transition: transform 0.3s ease;
-}
-
-.paquete-card:hover {
-    transform: translateY(-4px);
-}
-
-.paquete-card.destacado {
-    background: var(--verde-bosque);
-    box-shadow: 0 8px 40px rgba(26, 46, 26, 0.25);
-    transform: scale(1.03);
-}
-
-.paquete-card.destacado:hover {
-    transform: scale(1.03) translateY(-4px);
-}
-
-.paquete-badge {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--tierra);
-    color: var(--humo);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 16px;
-    border-radius: 20px;
-}
-
-.paquete-card h3 {
-    font-family: var(--font-titulo);
-    font-size: 1.3rem;
-    color: var(--verde-bosque);
-    margin-bottom: 0.5rem;
-}
-
-.paquete-card.destacado h3 {
-    color: var(--arena);
-}
-
-.paquete-duracion {
-    font-size: 0.8rem;
-    color: var(--texto-medio);
-    margin-bottom: 0.75rem;
-    font-style: italic;
-}
-
-.paquete-card.destacado .paquete-duracion {
-    color: rgba(245, 240, 232, 0.6);
-}
-
-.paquete-precio {
-    font-size: 1.5rem;
-    font-family: var(--font-titulo);
-    color: var(--tierra);
-    margin-bottom: 1.5rem;
-}
-
-.paquete-card.destacado .paquete-precio {
-    color: var(--arena-claro);
-}
-
-.paquete-lista {
-    list-style: none;
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.paquete-lista li {
-    font-size: 0.85rem;
-    color: var(--texto-medio);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.paquete-card.destacado .paquete-lista li {
-    color: rgba(245, 240, 232, 0.8);
-}
-
-.check {
-    color: var(--verde-claro);
-    font-weight: bold;
-}
-
-.paquete-card.destacado .check {
-    color: var(--arena);
-}
-
-.paquete-cta {
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    background: var(--humo-oscuro);
-    color: var(--verde-bosque);
-}
-
-.paquete-card.destacado .paquete-cta {
-    background: var(--tierra);
-    color: var(--humo);
-}
-
-.paquete-cta:hover {
-    opacity: 0.85;
 }
 
 /* ===== CONTACTO ===== */
@@ -821,6 +645,10 @@ const volverInicio = () => {
         font-size: 1.8rem;
     }
 
+    .est-navbar {
+        justify-content: space-evenly;
+    }
+
     .est-logo {
         display: none;
     }
@@ -832,10 +660,6 @@ const volverInicio = () => {
 
     .form-row {
         grid-template-columns: 1fr;
-    }
-
-    .paquete-card.destacado {
-        transform: none;
     }
 }
 </style>
