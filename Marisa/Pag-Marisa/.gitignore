@@ -23,7 +23,7 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-src/assets/Videos/
+
 
 *.tsbuildinfo
 
@@ -35,3 +35,7 @@ src/assets/Videos/
 
 # Vitest
 __screenshots__/
+
+*.zip
+dist/
+src/assets/Videos/
