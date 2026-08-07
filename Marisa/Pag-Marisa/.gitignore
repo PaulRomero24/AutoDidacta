@@ -13,6 +13,7 @@ dist
 dist-ssr
 coverage
 *.local
+Marisa/Pag-Marisa/src/assets/Videos/
 
 # Editor directories and files
 .vscode/*
@@ -34,3 +35,5 @@ coverage
 
 # Vitest
 __screenshots__/
+dist.zip
+dist/
