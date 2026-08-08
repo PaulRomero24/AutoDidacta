@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { enviarConsulta } from '../api.js'
 
 
 import caverna from '@/assets/Lugares/Caverna-Guiadas.jpg';
@@ -52,6 +53,8 @@ const servicios = ref([
     { icono: '📋', titulo: 'Material educativo', descripcion: 'Información didáctica adaptada al nivel escolar del grupo.' },
 ]);
 
+const cargando = ref(false)
+const errorEnvio = ref('')
 
 const formData = ref({
     institucion: '',
@@ -62,15 +65,31 @@ const formData = ref({
     nivelEducativo: '',
     fechaEstimada: '',
     mensaje: '',
-});
+})
 
+// Reemplazá enviarFormulario por esto
+const enviarFormulario = async () => {
+    cargando.value = true
+    errorEnvio.value = ''
+    try {
+        await enviarConsultaEstudiantil({
+            institucion: formData.value.institucion,
+            responsable: formData.value.responsable,
+            email: formData.value.email,
+            telefono: formData.value.telefono,
+            cantidad_alumnos: parseInt(formData.value.cantidadAlumnos) || 0,
+            nivel_educativo: formData.value.nivelEducativo,
+            fecha_estimada: formData.value.fechaEstimada,
+            mensaje: formData.value.mensaje
+        })
+        enviado.value = true
+    } catch (error) {
+        errorEnvio.value = 'Hubo un error al enviar. Intentá de nuevo.'
+    } finally {
+        cargando.value = false
+    }
+}
 const enviado = ref(false);
-
-const enviarFormulario = () => {
-    // Placeholder — conectar con backend o EmailJS
-    console.log('Formulario enviado:', formData.value);
-    enviado.value = true;
-};
 
 const volverInicio = () => {
     router.push('/');
@@ -99,7 +118,7 @@ const volverInicio = () => {
             </div>
         </section>
 
-                <!-- Servicios -->
+        <!-- Servicios -->
         <section class="seccion servicios-seccion">
             <div class="seccion-inner">
                 <h2 class="seccion-titulo">Servicios incluidos</h2>
@@ -163,8 +182,8 @@ const volverInicio = () => {
                     <div class="form-row">
                         <div class="form-group">
                             <label>Institución</label>
-                            <input v-model="formData.institucion" type="text" placeholder="Nombre de la escuela o institución"
-                                required />
+                            <input v-model="formData.institucion" type="text"
+                                placeholder="Nombre de la escuela o institución" required />
                         </div>
                         <div class="form-group">
                             <label>Responsable</label>
@@ -206,7 +225,14 @@ const volverInicio = () => {
                         <textarea v-model="formData.mensaje" placeholder="Contanos más sobre lo que necesitás..."
                             rows="4"></textarea>
                     </div>
-                    <button type="submit" class="form-submit">Enviar consulta</button>
+                    <!-- Agregá estas dos líneas antes del botón -->
+                    <p v-if="errorEnvio" style="color:#e74c3c; font-size:0.82rem; margin-bottom:0.5rem">
+                        {{ errorEnvio }}
+                    </p>
+
+                    <button type="submit" class="form-submit" :disabled="cargando">
+                        {{ cargando ? 'Enviando...' : 'Enviar consulta' }}
+                    </button>
                 </form>
 
                 <!-- Confirmación -->
@@ -242,7 +268,7 @@ const volverInicio = () => {
     background: var(--verde-bosque);
     display: flex;
     align-items: center;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     padding: 1rem 2rem;
     border-bottom: 1px solid rgba(212, 169, 106, 0.2);
 }

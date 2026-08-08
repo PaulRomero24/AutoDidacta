@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { subirFoto, getFotosAprobadas } from '../api.js';
 
-// Importar imágenes existentes
+// Importar imágenes existentes de Marisa
 import caverna1 from "../assets/Lugares/Caverna1.jpg";
 import caverna2 from "../assets/Lugares/Caverna2.jpg";
 import payunia1 from "../assets/Lugares/Payunia1.jpg";
@@ -49,6 +50,26 @@ const destinos = ref([
     },
 ]);
 
+// Cargar fotos aprobadas de la API y agregarlas a los destinos
+onMounted(async () => {
+    try {
+        const fotosAprobadas = await getFotosAprobadas();
+        fotosAprobadas.forEach(foto => {
+            const destino = destinos.value.find(
+                d => d.nombre.toLowerCase() === foto.destino.toLowerCase()
+            );
+            if (destino) {
+                destino.fotos.push({
+                    src: foto.url_foto,
+                    autor: foto.nombre_autor
+                });
+            }
+        });
+    } catch (error) {
+        console.error('Error cargando fotos:', error);
+    }
+});
+
 // Lightbox
 const expandedImage = ref('');
 const showExpanded = ref(false);
@@ -64,6 +85,8 @@ const closeExpanded = () => { showExpanded.value = false; };
 // Modal subir foto
 const showUpload = ref(false);
 const uploadEnviado = ref(false);
+const cargando = ref(false);
+const errorUpload = ref('');
 
 const formFoto = ref({
     nombre: '',
@@ -79,27 +102,29 @@ const onFileChange = (e) => {
     formFoto.value.preview = URL.createObjectURL(file);
 };
 
-const enviarFoto = () => {
-    // Simulación EmailJS — reemplazar con llamada real cuando esté configurado
-    console.log('Simulando envío:', {
-        nombre: formFoto.value.nombre,
-        destino: formFoto.value.destino,
-        archivo: formFoto.value.archivo?.name,
-    });
+const enviarFoto = async () => {
+    cargando.value = true;
+    errorUpload.value = '';
+    try {
+        const formData = new FormData();
+        formData.append('nombre_autor', formFoto.value.nombre);
+        formData.append('destino', formFoto.value.destino);
+        formData.append('foto', formFoto.value.archivo);
 
-    /* Cuando tengas EmailJS configurado, reemplazá esto:
-    emailjs.send('service_xxx', 'template_xxx', {
-      nombre: formFoto.value.nombre,
-      destino: formFoto.value.destino,
-    }, 'public_key_xxx').then(() => { uploadEnviado.value = true })
-    */
-
-    uploadEnviado.value = true;
+        await subirFoto(formData);
+        uploadEnviado.value = true;
+    } catch (error) {
+        errorUpload.value = 'Hubo un error al enviar la foto. Intentá de nuevo.';
+        console.error(error);
+    } finally {
+        cargando.value = false;
+    }
 };
 
 const cerrarUpload = () => {
     showUpload.value = false;
     uploadEnviado.value = false;
+    errorUpload.value = '';
     formFoto.value = { nombre: '', destino: '', preview: null, archivo: null };
 };
 </script>
@@ -205,9 +230,13 @@ const cerrarUpload = () => {
                             @change="onFileChange" />
                     </div>
 
-                    <button class="btn-enviar" :disabled="!formFoto.nombre || !formFoto.destino || !formFoto.archivo"
+                    <!-- Error -->
+                    <p v-if="errorUpload" class="error-msg">{{ errorUpload }}</p>
+
+                    <button class="btn-enviar"
+                        :disabled="!formFoto.nombre || !formFoto.destino || !formFoto.archivo || cargando"
                         @click="enviarFoto">
-                        Enviar para revisión
+                        {{ cargando ? 'Enviando...' : 'Enviar para revisión' }}
                     </button>
                 </div>
 
@@ -711,6 +740,14 @@ const cerrarUpload = () => {
     color: var(--texto-medio);
     line-height: 1.6;
     margin-bottom: 1.5rem;
+}
+
+.error-msg {
+    color: #e74c3c;
+    font-size: 0.82rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-style: italic;
 }
 
 /* ===== RESPONSIVE ===== */

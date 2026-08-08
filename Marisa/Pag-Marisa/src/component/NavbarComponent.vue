@@ -45,8 +45,7 @@ const irWhatsApp = () => {
     closeMenu();
 };
 const abrirGaleria = () => {
-    // TODO: abrir modal de subida de foto
-    // Por ahora emitimos un evento
+    router.push('/galeria')
     closeMenu();
 };
 

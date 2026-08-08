@@ -1,5 +1,5 @@
 <script setup>
-import email from "../assets/svg/email.svg";
+
 import facebook from "../assets/svg/facebook.svg";
 import tiktok from "../assets/svg/tiktok.svg";
 import instagram from "../assets/svg/instagram.svg";
@@ -10,7 +10,6 @@ const redes = ref([
     { nombre: "Instagram", svg: instagram, enlace: "https://instagram.com/tu-perfil" },
     { nombre: "Facebook", svg: facebook, enlace: "https://facebook.com/tu-perfil" },
     { nombre: "TikTok", svg: tiktok, enlace: "https://tiktok.com/@tu-perfil" },
-    { nombre: "Email", svg: email, enlace: "mailto:tucorreo@ejemplo.com" }
 ]);
 // Función única que rastrea e interactúa según la red
 const trackearRedSocial = (red) => {
