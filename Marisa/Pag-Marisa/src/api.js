@@ -1,5 +1,30 @@
 const API_URL = 'https://marisa-backend-production.up.railway.app'
 
+const PHP_URL = 'https://marisaberdu.com/api/contacto.php'
+
+export const enviarConsultaEstudiantil = async (datos) => {
+    const response = await fetch(PHP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            asunto: `Consulta estudiantil — ${datos.institucion}`,
+            cuerpo: `
+                <h2>Nueva consulta estudiantil</h2>
+                <p><b>Institución:</b> ${datos.institucion}</p>
+                <p><b>Responsable:</b> ${datos.responsable}</p>
+                <p><b>Email:</b> ${datos.email}</p>
+                <p><b>Teléfono:</b> ${datos.telefono}</p>
+                <p><b>Cantidad de personas:</b> ${datos.cantidad_alumnos}</p>
+                <p><b>Nivel educativo:</b> ${datos.nivel_educativo}</p>
+                <p><b>Fecha estimada:</b> ${datos.fecha_estimada}</p>
+                <p><b>Mensaje:</b> ${datos.mensaje}</p>
+            `
+        })
+    })
+    if (!response.ok) throw new Error('Error al enviar')
+    return response.json()
+}
+
 // ← agregá estas funciones nuevas
 
 export const loginAdmin = async (username, password) => {
@@ -67,13 +92,3 @@ export const eliminarFoto = async (id, token) => {
     return response.json()
 }
 
-
-export const enviarConsulta = async (datos) => {
-    const response = await fetch(`${API_URL}/contacto/estudiantiles`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos)
-    })
-    if (!response.ok) throw new Error('Error al enviar')
-    return response.json()
-}

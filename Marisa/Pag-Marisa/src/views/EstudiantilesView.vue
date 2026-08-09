@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { enviarConsulta } from '../api.js'
+import { enviarConsultaEstudiantil } from '../api.js'
 
 
 import caverna from '@/assets/Lugares/Caverna-Guiadas.jpg';
