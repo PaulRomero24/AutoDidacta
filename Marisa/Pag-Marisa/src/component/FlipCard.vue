@@ -80,7 +80,7 @@ const backPointer = computed(() => isFlipped.value ? 'auto' : 'none')
                         <h1 class="card-name">MARISA BERDU</h1>
                         <p class="card-subtitle">Malargüe · Mendoza · Argentina</p>
                         <div class="card-divider"></div>
-                        <p class="card-years">25 años de experiencia</p>
+                        <p class="card-years">24 años de experiencia</p>
                     </div>
                     <div class="card-corners">
                         <span class="corner tl"></span>
@@ -97,7 +97,7 @@ const backPointer = computed(() => isFlipped.value ? 'auto' : 'none')
                         <h2>¿Quién soy?</h2>
                         <p>
                             Soy una guía de turismo en Malargüe, llevo en actividad
-                            25 años y contando. Ejercí como Profesora, también he sido dueña de
+                            24 años y aún ejerciendo. Ejercí como Profesora, también he sido dueña de
                             una agencia de turismo. Amo a mi Malargüe y espero que ustedes también.
                         </p>
                         <button class="close-button" @click.stop="() => { console.log('click botón'); closeCard(); }">
@@ -513,9 +513,13 @@ const backPointer = computed(() => isFlipped.value ? 'auto' : 'none')
         height: 150px;
         border-radius: 12px;
     }
-
+.center-text {
+        padding: 1rem;
+        gap: 8px;
+    }
+    
     .center-text p {
-        font-size: 0.95rem;
+        font-size: 0.8rem;
         max-width: 200px;
     }
 }

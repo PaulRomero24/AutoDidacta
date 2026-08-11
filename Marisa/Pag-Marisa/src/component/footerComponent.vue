@@ -7,9 +7,9 @@ import instagram from "../assets/svg/instagram.svg";
 import { ref } from 'vue';
 
 const redes = ref([
-    { nombre: "Instagram", svg: instagram, enlace: "https://instagram.com/tu-perfil" },
-    { nombre: "Facebook", svg: facebook, enlace: "https://facebook.com/tu-perfil" },
-    { nombre: "TikTok", svg: tiktok, enlace: "https://tiktok.com/@tu-perfil" },
+    { nombre: "Instagram", svg: instagram, enlace: "https://www.instagram.com/marisaberdu" },
+    { nombre: "Facebook", svg: facebook, enlace: "https://www.facebook.com/marisa.berdu" },
+    { nombre: "TikTok", svg: tiktok, enlace: "https://www.tiktok.com/@marisapro67" },
 ]);
 // Función única que rastrea e interactúa según la red
 const trackearRedSocial = (red) => {

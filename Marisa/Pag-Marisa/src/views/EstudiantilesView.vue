@@ -170,10 +170,11 @@ const volverInicio = () => {
                 <div class="contacto-info">
                     <h2>¿Querés organizar una excursión?</h2>
                     <p>Completá el formulario y nos ponemos en contacto para armar el recorrido ideal para tu
-                        institución.</p>
+                        institución.
+                    <br> 👇 O puedes contactarte directamente  👇 </p>
                     <div class="contacto-datos">
-                        <p>📧 marisa@ejemplo.com</p>
-                        <p>📱 +54 260 000-0000</p>
+                        <p>📧 contacto@marisaberdu.com</p>
+                        <p>📱 +54 260 460-4130</p>
                         <p>📍 Malargüe, Mendoza, Argentina</p>
                     </div>
                 </div>
@@ -247,7 +248,7 @@ const volverInicio = () => {
 
         <!-- Footer simple -->
         <footer class="est-footer">
-            <p>© 2025 Marisa Berdu — Guía de Turismo · Malargüe, Mendoza</p>
+            <p>© 2026 Marisa Berdu — Guía de Turismo · Malargüe, Mendoza</p>
         </footer>
 
     </div>
