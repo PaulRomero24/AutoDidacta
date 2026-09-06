@@ -84,7 +84,7 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
 </script>
 <template>
     <div class="lugares-container">
-        <h2 class="section-title">Lugares donde puedes ir</h2>
+        <h2 class="section-title">Lugares donde los puedo acompañar</h2>
         <div v-for="lugar in lugares" :key="lugar.nombre" class="lugar-card">
             <h2>{{ lugar.nombre }}</h2>
 
