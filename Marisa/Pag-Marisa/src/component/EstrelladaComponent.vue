@@ -132,7 +132,7 @@ onUnmounted(() => {
     width: 200px;
     border-radius: 12px;
     overflow: hidden;
-    border: 2px solid white;
+    border: 5px solid white;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
     background: var(--verde-bosque);
     z-index: 2;

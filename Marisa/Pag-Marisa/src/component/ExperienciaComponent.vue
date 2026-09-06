@@ -84,7 +84,6 @@ const closeExpanded = () => {
 .contenido-con-imagenes{
     position: relative;
     padding: 5rem 4rem;
-    background: var(--arena);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     /* sin border-radius para que llegue a los bordes */
     width: 100vw;
@@ -115,7 +114,7 @@ const closeExpanded = () => {
     height: 200px;
     object-fit: cover;
     border-radius: 12px;
-    border: 3px solid white;
+    border: 5px solid white;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     z-index: 1;

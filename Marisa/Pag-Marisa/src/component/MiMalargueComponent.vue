@@ -10,7 +10,7 @@ import caverna1 from "../assets/Lugares/Caverna1.jpg";
 import payunia1 from "../assets/Lugares/Payunia1.jpg";
 import valles1 from "../assets/Lugares/Valles1.jpg";
 import malacara1 from "../assets/Lugares/Malacara1.jpg";
-import GaleriaView from '../views/GaleriaView.vue';
+
 
 const miniFotos = ref([
     caverna1,
@@ -37,8 +37,6 @@ const abrirGaleria = () => {
             Ver galería completa
         </button>
 
-        <!-- Modal de galería -->
-        <GaleriaCompleta :is-visible="showGaleria" @close="showGaleria = false" />
     </section>
 </template>
 
@@ -48,12 +46,10 @@ const abrirGaleria = () => {
     margin: 3rem auto;
     padding: 0 1.5rem 2rem 1.5rem;
     text-align: center;
-    background: var(--arena);
 }
 
 .mini-galeria h2 {
     font-size: 2rem;
-    color: #182019;
     margin-bottom: 1.5rem;
 }
 
@@ -71,6 +67,7 @@ const abrirGaleria = () => {
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.5s;
+    border:2px solid white;
 }
 
 .mini-img:hover {

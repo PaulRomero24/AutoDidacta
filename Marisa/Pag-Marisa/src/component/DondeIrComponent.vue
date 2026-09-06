@@ -105,6 +105,7 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
 </template>
 
 <style scoped>
+
 .lugares-container {
     display: flex;
     flex-direction: column;
@@ -112,17 +113,14 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
     width: 100%;
     padding: 0 1.5rem;
     max-width: 1600px;
-    /* ← Añade padding horizontal aquí */
-    margin: 2rem auto;
-    margin-top: 20px;
+    margin: 0 auto;  /* ← sacá el 2rem arriba y abajo */
+    padding-top: 20px;  /* ← usá padding en lugar de margin */
 }
 
 .lugar-card {
     position: relative;
-    padding: 5rem 4rem;
-    background: var(--arena);
-    box-shadow: 0 10px 2px rgba(228, 222, 222);
-    /* sin border-radius para que llegue a los bordes */
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);  /* ← más oscura y sutil */
     width: 100vw;
     margin-left: calc(-50vw + 50%);
 }
@@ -138,14 +136,12 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
     margin-top: 2rem;
     text-align: center;
     font-size: 2.2rem;
-    color: #182019;
     width: 100%;
 }
 
 .descripcion{
-    font-size: 24px;
+    font-size: 28px;
     text-align: center;
-    font-style:italic;
     white-space: pre-line;
 }
 .imagenes {
@@ -154,6 +150,7 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
     margin-bottom: 1.5rem;
     justify-content: center;
     width: 100%;
+    border-radius: 12px;
 }
 
 
@@ -166,6 +163,7 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     width: 100%;
     height: 300px;
+    border: 5px solid white;
 }
 
 .img-wrapper img {

@@ -9,6 +9,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Cinzel:wght@400;600&display=swap');
 
+
 /* ===== CSS VARIABLES ===== */
 :root {
   --verde-bosque: #1a2e1a;
@@ -18,7 +19,7 @@
   --tierra-claro: #a0852dcc;
   --arena: #ebc07f;
   --arena-claro: #E8C98A;
-  --humo: #F5F0E8;
+  --humo: #f5f0e8dc;
   --humo-oscuro: #E8E0D0;
   --blanco: #FAFAF7;
   --texto-oscuro: #1a1a14;
@@ -42,7 +43,7 @@ html {
 body {
   font-family: var(--font-cuerpo);
   background-color: var(--humo-oscuro);
-  color: var(--texto-oscuro);
+  color: var(--humo-oscuro);
   overflow-x: hidden;
 }
 
@@ -72,6 +73,9 @@ h2,
 h3 {
   font-family: var(--font-titulo);
   text-transform: uppercase;
+  font-style: italic;
+  color: var(--humo);
+  text-wrap: balance;
 }
 
 p {
@@ -79,6 +83,7 @@ p {
   letter-spacing: 1px;
   line-height: 1.5;
   font-style: italic;
+  text-wrap: pretty;
 }
 
 /* Scrollbar personalizado */

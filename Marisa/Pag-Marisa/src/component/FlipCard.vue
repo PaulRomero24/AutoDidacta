@@ -20,17 +20,14 @@ const cornerImages = {
 };
 
 // Estilos críticos del flip como objetos JS (igual que el test que funcionó)
-const cardStyle = computed(() => {
-    const isMobile = window.innerWidth <= 768
-    return {
-        width: isMobile ? '90vw' : '1024px',
-        height: isMobile ? '85vh' : '840px',
-        position: 'relative',
-        transformStyle: 'preserve-3d',
-        transition: 'transform 0.8s cubic-bezier(0.645,0.045,0.355,1)',
-        cursor: 'pointer',
-    }
-})
+const cardStyle = {
+    width: 'min(90vw, 1024px)',
+    height: 'min(85vh, 840px)',
+    position: 'relative',
+    transformStyle: 'preserve-3d',
+    transition: 'transform 0.8s cubic-bezier(0.645,0.045,0.355,1)',
+    cursor: 'pointer',
+}
 
 const faceStyle = {
     position: 'absolute',
@@ -54,6 +51,7 @@ const closeExpanded = () => { showExpanded.value = false; };
 const closeCard = () => { document.body.style.overflow = ''; emit('close'); };
 const frontPointer = computed(() => isFlipped.value ? 'none' : 'auto')
 const backPointer = computed(() => isFlipped.value ? 'auto' : 'none')
+
 
 </script>
 
@@ -369,12 +367,11 @@ const backPointer = computed(() => isFlipped.value ? 'auto' : 'none')
 }
 
 .center-text p {
-    font-size: 1.25rem;
+    font-size: clamp(0.8rem, 2vw, 1.25rem);
     line-height: 1.7;
     color: rgba(245, 240, 232, 0.75);
-    max-width: 280px;
+    max-width: min(280px, 50vw);
 }
-
 .close-button {
     position: relative;
     margin-top: 8px;
@@ -420,8 +417,8 @@ const backPointer = computed(() => isFlipped.value ? 'auto' : 'none')
 
 .corner-photo-wrapper {
     position: absolute;
-    width: 320px;
-    height: 320px;
+    width: clamp(80px, 25vw, 320px);
+    height: clamp(80px, 25vw, 320px);
     border-radius: 48px;
     overflow: hidden;
     border: 2px solid rgba(212, 169, 106, 0.25);
@@ -507,65 +504,6 @@ const backPointer = computed(() => isFlipped.value ? 'auto' : 'none')
         display: flex;
         justify-content: center;
     }
-
-    .corner-photo-wrapper {
-        width: 150px;
-        height: 150px;
-        border-radius: 12px;
-    }
-.center-text {
-        padding: 1rem;
-        gap: 8px;
-    }
-    
-    .center-text p {
-        font-size: 0.8rem;
-        max-width: 200px;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-    .face-back {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-        padding: 1rem;
-    }
-
-    .center-text {
-        order: 2;
-        max-width: 300px;
-    }
-
-    .center-text p {
-        font-size: 1.5rem;
-        max-width: 260px;
-    }
-
-    .corner-photo-wrapper {
-        width: 250px;
-        height: 250px;
-    }
-
-    /* En row, reposicionamos las fotos */
-    .corner-photo-wrapper.top-left {
-        top: 10px;
-        left: 10px;
-    }
-
-    .corner-photo-wrapper.top-right {
-        top: 10px;
-        right: 10px;
-    }
-
-    .corner-photo-wrapper.bottom-left {
-        bottom: 10px;
-        left: 10px;
-    }
-
-    .corner-photo-wrapper.bottom-right {
-        bottom: 10px;
-        right: 10px;
-    }
+    /* ya no necesitás nada más acá */
 }
 </style>

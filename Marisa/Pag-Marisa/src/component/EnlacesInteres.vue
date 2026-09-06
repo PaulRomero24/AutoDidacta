@@ -62,7 +62,6 @@ const enlaces = ref([
 .seccion-enlaces h3 {
     text-align: center;
     font-size: 2rem;
-    color: #182019;
     margin-bottom: 2rem;
 }
 
