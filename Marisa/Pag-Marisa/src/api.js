@@ -1,4 +1,4 @@
-const API_URL = 'https://marisa-backend-production.up.railway.app'
+const API_URL = 'https://marisa-backend.onrender.com'
 
 const PHP_URL = 'https://marisaberdu.com/api/contacto.php'
 
