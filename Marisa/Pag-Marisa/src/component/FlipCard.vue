@@ -19,7 +19,7 @@ const cornerImages = {
     bottomRight: reverso4,
 };
 
-// Estilos críticos del flip como objetos JS (igual que el test que funcionó)
+
 const cardStyle = {
     width: 'min(90vw, 1024px)',
     height: 'min(85vh, 840px)',
@@ -504,6 +504,5 @@ const backPointer = computed(() => isFlipped.value ? 'auto' : 'none')
         display: flex;
         justify-content: center;
     }
-    /* ya no necesitás nada más acá */
 }
 </style>

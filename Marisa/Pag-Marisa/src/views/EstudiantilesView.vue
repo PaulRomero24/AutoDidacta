@@ -18,7 +18,7 @@ const recorridos = ref([
         duracion: '2 horas',
         dificultad: 'Baja',
         edad: 'Desde 7 años',
-        img: caverna, // reemplazá con: import img from '../assets/...'
+        img: caverna,
     },
     {
         nombre: 'Reserva Natural Payunia',
@@ -67,7 +67,7 @@ const formData = ref({
     mensaje: '',
 })
 
-// Reemplazá enviarFormulario por esto
+
 const enviarFormulario = async () => {
     cargando.value = true
     errorEnvio.value = ''
@@ -226,7 +226,7 @@ const volverInicio = () => {
                         <textarea v-model="formData.mensaje" placeholder="Contanos más sobre lo que necesitás..."
                             rows="4"></textarea>
                     </div>
-                    <!-- Agregá estas dos líneas antes del botón -->
+                    
                     <p v-if="errorEnvio" style="color:#e74c3c; font-size:0.82rem; margin-bottom:0.5rem">
                         {{ errorEnvio }}
                     </p>

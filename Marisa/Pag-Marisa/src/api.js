@@ -1,14 +1,31 @@
-const API_URL = 'https://marisa-backend.onrender.com'
+// Todo el backend ahora es PHP en Hostinger
+const PHP_URL = "https://marisaberdu.com/api";
 
-const PHP_URL = 'https://marisaberdu.com/api/contacto.php'
+// Helper: hace la petición y lanza Error con el mensaje del servidor si falla.
+// Si el servidor responde 401 (token vencido o inválido), el error trae status = 401.
+async function pedir(ruta, opciones = {}, token = "") {
+  const headers = { ...(opciones.headers || {}) };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
 
-export const enviarConsultaEstudiantil = async (datos) => {
-    const response = await fetch(PHP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            asunto: `Consulta estudiantil — ${datos.institucion}`,
-            cuerpo: `
+  const response = await fetch(`${PHP_URL}/${ruta}`, { ...opciones, headers });
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    const error = new Error(data.detail || "Error en la solicitud");
+    error.status = response.status;
+    throw error;
+  }
+  return data;
+}
+
+// ===== CONTACTO =====
+export const enviarConsultaEstudiantil = (datos) =>
+  pedir("contacto.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      asunto: `Consulta estudiantil — ${datos.institucion}`,
+      cuerpo: `
                 <h2>Nueva consulta estudiantil</h2>
                 <p><b>Institución:</b> ${datos.institucion}</p>
                 <p><b>Responsable:</b> ${datos.responsable}</p>
@@ -18,77 +35,58 @@ export const enviarConsultaEstudiantil = async (datos) => {
                 <p><b>Nivel educativo:</b> ${datos.nivel_educativo}</p>
                 <p><b>Fecha estimada:</b> ${datos.fecha_estimada}</p>
                 <p><b>Mensaje:</b> ${datos.mensaje}</p>
-            `
-        })
-    })
-    if (!response.ok) throw new Error('Error al enviar')
-    return response.json()
-}
+            `,
+    }),
+  });
 
-// ← agregá estas funciones nuevas
+// ===== LOGIN =====
+export const loginAdmin = (username, password) => {
+  const formData = new FormData();
+  formData.append("username", username);
+  formData.append("password", password);
+  return pedir("login.php", { method: "POST", body: formData });
+};
 
-export const loginAdmin = async (username, password) => {
-    const formData = new FormData()
-    formData.append('username', username)
-    formData.append('password', password)
+// ===== FOTOS =====
+export const getFotosPendientes = (token) => pedir("pendientes.php", {}, token);
 
-    const response = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        body: formData
-    })
+export const aprobarFoto = (id, token) =>
+  pedir(`moderar.php?id=${id}&accion=aprobar`, { method: "PUT" }, token);
 
-    if (!response.ok) throw new Error('Credenciales incorrectas')
-    return response.json()
-}
+export const rechazarFoto = (id, token) =>
+  pedir(`moderar.php?id=${id}&accion=rechazar`, { method: "PUT" }, token);
 
-export const getFotosPendientes = async (token) => {
-    const response = await fetch(`${API_URL}/fotos/pendientes`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-    })
-    return response.json()
-}
+export const subirFoto = (formData) =>
+  pedir("subir.php", { method: "POST", body: formData });
 
-export const aprobarFoto = async (id, token) => {
-    const response = await fetch(`${API_URL}/fotos/aprobar/${id}`, {
-        method: 'PUT',
-        headers: { 'Authorization': `Bearer ${token}` }
-    })
-    return response.json()
-}
+export const getFotosAprobadas = () => pedir("aprobadas.php");
 
-export const rechazarFoto = async (id, token) => {
-    const response = await fetch(`${API_URL}/fotos/rechazar/${id}`, {
-        method: 'PUT',
-        headers: { 'Authorization': `Bearer ${token}` }
-    })
-    return response.json()
-}
+// aprobadas.php es público, no necesita token
+export const getFotosAprobadasAdmin = () => pedir("aprobadas.php");
 
-export const subirFoto = async (formData) => {
-    const response = await fetch(`${API_URL}/fotos/subir`, {
-        method: 'POST',
-        body: formData
-    })
-    return response.json()
-}
+export const eliminarFoto = (id, token) =>
+  pedir(`eliminar.php?id=${id}`, { method: "DELETE" }, token);
 
-export const getFotosAprobadas = async () => {
-    const response = await fetch(`${API_URL}/fotos/aprobadas`)
-    return response.json()
-}
+// ===== RESEÑAS (públicas) =====
+export const getResenas = (limite = 5) => pedir(`resenas.php?limite=${limite}`);
 
-export const getFotosAprobadasAdmin = async (token) => {
-    const response = await fetch(`${API_URL}/fotos/aprobadas`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-    })
-    return response.json()
-}
+export const enviarResena = (datos) =>
+  pedir("resenas.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(datos),
+  });
 
-export const eliminarFoto = async (id, token) => {
-    const response = await fetch(`${API_URL}/fotos/eliminar/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-    })
-    return response.json()
-}
+// ===== RESEÑAS (admin) =====
+export const getResenasAdmin = (estado, token) =>
+  pedir(`resenas_admin.php?estado=${estado}`, {}, token);
 
+export const moderarResena = (id, accion, token) =>
+  pedir(
+    `resenas_admin.php?id=${id}&accion=${accion}`,
+    { method: "PUT" },
+    token,
+  );
+
+export const eliminarResena = (id, token) =>
+  pedir(`resenas_admin.php?id=${id}`, { method: "DELETE" }, token);

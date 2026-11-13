@@ -11,7 +11,7 @@ const videoRef = ref(null);
 const containerRef = ref(null);
 let observer = null;
 
-// Reemplazá con tus videos reales
+
 const videos = ref([
     {
         tipo: 'local',
@@ -86,7 +86,7 @@ onUnmounted(() => {
 
 <template>
     <div class="video-widget" :class="{ expandido }" ref="containerRef"  @click="toggleExpandido">
-        <!-- Cabecera siempre visible — click para expandir -->
+
         <p class="widget-label">Entrevistas</p>
         <div class="widget-header">
             <span class="play-icon">{{ expandido ? '▼' : '▶' }}</span>

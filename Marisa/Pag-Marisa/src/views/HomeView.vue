@@ -1,6 +1,6 @@
-<!-- App.vue -->
+
 <script setup>
-// ✅ Poner esto
+
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper';
 
@@ -29,6 +29,7 @@ import fondo6 from '../assets/Fondos/Fondo6.webp';
 import fondo7 from '../assets/Fondos/Fondo7.webp';
 import fondo8 from '../assets/Fondos/Fondo8.webp';
 import fondo9 from '../assets/Fondos/Fondo9.webp';
+import ResenasComponent from '@/component/ResenasComponent.vue';
 
 
 // Después — solo muestra la carta si es la primera vez
@@ -40,7 +41,7 @@ const handleIntroClose = () => {
 }
 
 
-// Aquí iría tu array de imágenes
+// array de imágenes
 const imagenes = [
     { id: 1, url: fondo1 },
     { id: 2, url: fondo2 },
@@ -74,7 +75,7 @@ const onSlideChange = () => {
             <swiper-slide v-for="imagen in imagenes" :key="imagen.id" class="hero-slide"
                 :style="{ backgroundImage: `url('${imagen.url}')` }">
                 <div class="overlay"></div>
-                <!-- Aquí va el contenido que quieras superponer (texto, botones, etc.) -->
+                
                 <div class="slide-content">
                     <h2>{{ imagen.titulo }}</h2>
                     <p>{{ imagen.descripcion }}</p>
@@ -100,6 +101,9 @@ const onSlideChange = () => {
             </section>
             <section id="links">
                 <EnlacesInteres />
+            </section>
+            <section>
+                <ResenasComponent />
             </section>
             <footer>
                 <FooterComponent />

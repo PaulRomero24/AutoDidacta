@@ -1,4 +1,4 @@
-<!-- eslint-disable vue/multi-word-component-names -->
+
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -10,6 +10,8 @@ const navegacion = ref([
     { id: 2, nombre: "¿Dónde ir?", enlace: "/#dondeir" },
     { id: 3, nombre: "Mi Malargüe", enlace: "/#mimalargue" },
     { id: 4, nombre: "Enlaces", enlace: "/#links" },
+    { id: 5, nombre: "Reseñas", enlace: "/#resenas" },
+    
 ]);
 
 const menuVisible = ref(false);

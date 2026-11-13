@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-//Lista de imagenes
+
 import experiencia1 from "../assets/experiencias/experiencia1.jpg"
 import experiencia2 from "../assets/experiencias/experiencia2.jpg"
 import experiencia3 from "../assets/experiencias/experiencia3.jpg"
@@ -33,7 +33,7 @@ const closeExpanded = () => {
 
 <template>
     <section class="experiencia-seccion">
-        <!-- Contenedor relativo que incluye texto + imágenes -->
+        
         <div class="contenido-con-imagenes">
             <div class="texto-contenido">
                 <h2>Mi carrera como guía de turismo</h2>
@@ -46,7 +46,7 @@ const closeExpanded = () => {
                 </p>
             </div>
 
-            <!-- Imágenes posicionadas sobre/entre el texto -->
+            
             <div class="imagenes-laterales">
             <img :src="imagenes.topLeft" class="corner-img top-left" @click.stop="openImage(imagenes.topLeft)"
                 alt="Mis compañeras de aventuras" />
@@ -72,11 +72,11 @@ const closeExpanded = () => {
 .experiencia-seccion {
     position: relative;
     padding: 3rem 1rem;
-    /* ← Más espacio arriba/abajo y laterales */
+    
     max-width: 1428px;
-    /* ← Un poco más ancho */
+    
     margin: 5rem auto;
-    /* ← Margen superior/inferior para separar de otras secciones */
+    
     overflow: visible;
 }
 
@@ -85,7 +85,6 @@ const closeExpanded = () => {
     position: relative;
     padding: 5rem 4rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    /* sin border-radius para que llegue a los bordes */
     width: 100vw;
     margin-left: calc(-50vw + 50%); /* ← truco para romper el max-width del padre */
     margin-bottom: 0;
@@ -154,7 +153,6 @@ const closeExpanded = () => {
 /* Imagen central - dentro del contenedor */
 .center-bottom {
     top: -50px;
-    /* ← Ajusta este valor según necesites */
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
@@ -168,8 +166,8 @@ const closeExpanded = () => {
     z-index: 2;
 }
 .estrellada {
-    bottom: 0; /* ← en lugar de -50px */
-    position: relative; /* ← sacala del flujo absoluto */
+    bottom: 0; 
+    position: relative;
     transform: none;
     margin: 0 auto;
     display: block;
@@ -236,7 +234,6 @@ const closeExpanded = () => {
         font-style: italic;
     }
 
-    /* Ocultamos las posiciones absolutas */
     .corner-img,
     .center-bottom {
         position: static !important;

@@ -113,14 +113,14 @@ Un trekking que nos permite introducirnos en él a través de sus cárcavas y de
     width: 100%;
     padding: 0 1.5rem;
     max-width: 1600px;
-    margin: 0 auto;  /* ← sacá el 2rem arriba y abajo */
-    padding-top: 20px;  /* ← usá padding en lugar de margin */
+    margin: 0 auto;
+    padding-top: 20px;  
 }
 
 .lugar-card {
     position: relative;
     padding: 2rem 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);  /* ← más oscura y sutil */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); 
     width: 100vw;
     margin-left: calc(-50vw + 50%);
 }

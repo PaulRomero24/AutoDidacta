@@ -42,3 +42,7 @@ dist/
 *.zip
 dist/
 src/assets/Videos/
+
+#PHP
+marisa-config.php
+backend-php/api/vendor/

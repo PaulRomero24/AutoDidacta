@@ -1,11 +1,10 @@
-<!-- src/components/MiniGaleria.vue -->
 <script setup>
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-// Importa 4-6 fotos representativas
+
 import caverna1 from "../assets/Lugares/Caverna1.jpg";
 import payunia1 from "../assets/Lugares/Payunia1.jpg";
 import valles1 from "../assets/Lugares/Valles1.jpg";

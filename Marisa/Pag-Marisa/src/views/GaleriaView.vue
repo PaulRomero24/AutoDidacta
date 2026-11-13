@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { subirFoto, getFotosAprobadas } from '../api.js';
 
-// Importar imágenes existentes de Marisa
+
 import caverna1 from "../assets/Lugares/Caverna1.jpg";
 import caverna2 from "../assets/Lugares/Caverna2.jpg";
 import payunia1 from "../assets/Lugares/Payunia1.jpg";

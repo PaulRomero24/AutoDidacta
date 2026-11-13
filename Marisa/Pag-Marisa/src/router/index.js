@@ -2,13 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import EstudiantilesView from '../views/EstudiantilesView.vue'
 import GaleriaView from '../views/GaleriaView.vue'
-import AdminView from '../views/AdminView.vue' // ← nueva
+import AdminView from '../views/AdminView.vue' 
 
 const routes = [
     { path: '/', component: HomeView },
     { path: '/estudiantiles', component: EstudiantilesView },
     { path: '/galeria', component: GaleriaView },
-    { path: '/admin', component: AdminView }, // ← nueva
+    { path: '/admin', component: AdminView }, 
 ]
 
 export default createRouter({
