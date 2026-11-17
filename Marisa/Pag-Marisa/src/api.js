@@ -90,3 +90,22 @@ export const moderarResena = (id, accion, token) =>
 
 export const eliminarResena = (id, token) =>
   pedir(`resenas_admin.php?id=${id}`, { method: "DELETE" }, token);
+
+
+// ===== NOTICIAS =====
+export const getNoticias = () => pedir('noticias.php')
+
+export const getNoticiasAdmin = (token) => pedir('noticias_admin.php', {}, token)
+
+// formData lleva: titulo, texto, activa, imagen1, imagen2 (los archivos son opcionales)
+export const crearNoticia = (formData, token) =>
+    pedir('noticias_admin.php', { method: 'POST', body: formData }, token)
+
+export const editarNoticia = (id, formData, token) =>
+    pedir(`noticias_admin.php?id=${id}`, { method: 'POST', body: formData }, token)
+
+export const cambiarVisibilidadNoticia = (id, accion, token) =>
+    pedir(`noticias_admin.php?id=${id}&accion=${accion}`, { method: 'PUT' }, token) // accion: 'ocultar' | 'mostrar'
+
+export const eliminarNoticia = (id, token) =>
+    pedir(`noticias_admin.php?id=${id}`, { method: 'DELETE' }, token)

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import {
   loginAdmin,
   getFotosPendientes,
@@ -10,8 +10,12 @@ import {
   getResenasAdmin,
   moderarResena,
   eliminarResena,
+  getNoticiasAdmin,
+  crearNoticia,
+  editarNoticia,
+  cambiarVisibilidadNoticia,
+  eliminarNoticia,
 } from "../api.js";
-
 const token = ref(sessionStorage.getItem("admin_token") || "");
 const loginError = ref("");
 const cargandoLogin = ref(false);
@@ -46,6 +50,7 @@ const logout = () => {
   fotosPendientes.value = [];
   resenasPendientes.value = [];
   resenasAprobadas.value = [];
+    noticias.value = [];
 };
 
 const cargarPendientes = async () => {
@@ -155,6 +160,168 @@ const eliminarRes = async (id) => {
   }
 };
 
+
+// ===== NOTICIAS =====
+const MAX_IMG = 5 * 1024 * 1024;
+const TIPOS_IMG = ["image/jpeg", "image/png", "image/webp"];
+
+const noticias = ref([]);
+const editandoId = ref(null); // null = creando una nueva
+const guardandoNoticia = ref(false);
+const errorNoticia = ref("");
+const claves = ref({ 1: 0, 2: 0 }); // para reiniciar los <input type="file">
+
+const formVacio = () => ({
+  titulo: "",
+  texto: "",
+  archivo1: null,
+  archivo2: null,
+  preview1: "",
+  preview2: "",
+  actual1: "",
+  actual2: "",
+  quitar1: false,
+  quitar2: false,
+});
+const formNoticia = ref(formVacio());
+
+// Las 3 noticias activas más recientes son las que ve el público en el modal
+const noticiasEnModal = computed(() =>
+  noticias.value
+    .filter((n) => n.activa === 1)
+    .slice(0, 3)
+    .map((n) => n.id),
+);
+
+const cargarNoticias = async () => {
+  try {
+    noticias.value = await getNoticiasAdmin(token.value);
+  } catch (error) {
+    manejarError(error);
+  }
+};
+
+const liberarPreviews = () => {
+  [1, 2].forEach((n) => {
+    const p = formNoticia.value["preview" + n];
+    if (p) URL.revokeObjectURL(p);
+  });
+};
+
+const limpiarFormNoticia = () => {
+  liberarPreviews();
+  formNoticia.value = formVacio();
+  editandoId.value = null;
+  errorNoticia.value = "";
+  claves.value[1]++;
+  claves.value[2]++;
+};
+
+// Lo que se muestra en cada casillero: imagen nueva elegida, o la actual si no se quitó
+const imagenMostrada = (n) =>
+  formNoticia.value["preview" + n] ||
+  (formNoticia.value["quitar" + n] ? "" : formNoticia.value["actual" + n]);
+
+const elegirImagen = (e, n) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (!TIPOS_IMG.includes(file.type)) {
+    errorNoticia.value = "Solo se permiten imágenes JPG, PNG o WEBP.";
+    claves.value[n]++;
+    return;
+  }
+  if (file.size > MAX_IMG) {
+    errorNoticia.value = "La imagen supera los 5 MB.";
+    claves.value[n]++;
+    return;
+  }
+  errorNoticia.value = "";
+  const anterior = formNoticia.value["preview" + n];
+  if (anterior) URL.revokeObjectURL(anterior);
+  formNoticia.value["archivo" + n] = file;
+  formNoticia.value["preview" + n] = URL.createObjectURL(file);
+  formNoticia.value["quitar" + n] = false;
+};
+
+const quitarImagen = (n) => {
+  if (formNoticia.value["preview" + n]) {
+    // descarta la imagen nueva que se había elegido
+    URL.revokeObjectURL(formNoticia.value["preview" + n]);
+    formNoticia.value["preview" + n] = "";
+    formNoticia.value["archivo" + n] = null;
+    claves.value[n]++;
+  } else {
+    // marca la imagen existente para borrarla al guardar
+    formNoticia.value["quitar" + n] = true;
+  }
+};
+
+const editarNoticiaForm = (n) => {
+  limpiarFormNoticia();
+  editandoId.value = n.id;
+  formNoticia.value.titulo = n.titulo;
+  formNoticia.value.texto = n.texto;
+  formNoticia.value.actual1 = n.imagen1 || "";
+  formNoticia.value.actual2 = n.imagen2 || "";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const guardarNoticia = async () => {
+  errorNoticia.value = "";
+  const f = formNoticia.value;
+  if (!f.titulo.trim() || !f.texto.trim()) {
+    errorNoticia.value = "El título y el texto son obligatorios.";
+    return;
+  }
+
+  const fd = new FormData();
+  fd.append("titulo", f.titulo.trim());
+  fd.append("texto", f.texto.trim());
+  [1, 2].forEach((n) => {
+    if (f["archivo" + n]) fd.append("imagen" + n, f["archivo" + n]);
+    else if (editandoId.value && f["quitar" + n]) fd.append("quitar_imagen" + n, "1");
+  });
+
+  guardandoNoticia.value = true;
+  try {
+    if (editandoId.value) {
+      await editarNoticia(editandoId.value, fd, token.value);
+      mostrarMensaje("✓ Noticia actualizada");
+    } else {
+      await crearNoticia(fd, token.value);
+      mostrarMensaje("✓ Noticia publicada");
+    }
+    limpiarFormNoticia();
+    await cargarNoticias();
+  } catch (error) {
+    errorNoticia.value = error.message || "No se pudo guardar la noticia.";
+    manejarError(error);
+  } finally {
+    guardandoNoticia.value = false;
+  }
+};
+
+const alternarVisibilidad = async (n) => {
+  try {
+    await cambiarVisibilidadNoticia(n.id, n.activa ? "ocultar" : "mostrar", token.value);
+    await cargarNoticias();
+    mostrarMensaje(n.activa ? "Noticia oculta" : "✓ Noticia visible");
+  } catch (error) {
+    manejarError(error);
+  }
+};
+
+const borrarNoticia = async (n) => {
+  if (!confirm(`¿Borrar la noticia "${n.titulo}"? También se borran sus imágenes.`)) return;
+  try {
+    await eliminarNoticia(n.id, token.value);
+    noticias.value = noticias.value.filter((x) => x.id !== n.id);
+    if (editandoId.value === n.id) limpiarFormNoticia();
+    mostrarMensaje("🗑 Noticia eliminada");
+  } catch (error) {
+    manejarError(error);
+  }
+};
 // Si el token venció (401), cerramos sesión para volver a loguear
 const manejarError = (error) => {
   console.error(error);
@@ -251,6 +418,16 @@ onMounted(() => {
             <span class="tab-badge" v-if="resenasPendientes.length > 0">
               {{ resenasPendientes.length }}
             </span>
+          </button>
+                    <button
+            class="tab"
+            :class="{ activo: seccionActiva === 'noticias' }"
+            @click="
+              seccionActiva = 'noticias';
+              cargarNoticias();
+            "
+          >
+            Noticias
           </button>
         </div>
 
@@ -369,6 +546,86 @@ onMounted(() => {
                 <button class="btn-rechazar" @click="eliminarRes(r.id)">
                   🗑 Eliminar
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+                <!-- Noticias -->
+        <div v-if="seccionActiva === 'noticias'">
+          <form class="noticia-form" @submit.prevent="guardarNoticia">
+            <h3 class="sub-titulo" style="margin-top: 0">
+              {{ editandoId ? "Editar noticia" : "Nueva noticia" }}
+            </h3>
+
+            <label class="nf-campo">
+              <span>Título</span>
+              <input v-model="formNoticia.titulo" type="text" maxlength="120" />
+            </label>
+
+            <label class="nf-campo">
+              <span>Texto <small>{{ formNoticia.texto.length }}/2000</small></span>
+              <textarea v-model="formNoticia.texto" rows="5" maxlength="2000"></textarea>
+            </label>
+
+            <div class="nf-imagenes">
+              <div v-for="n in [1, 2]" :key="n" class="nf-imagen">
+                <span>Imagen {{ n }} (opcional)</span>
+                <img v-if="imagenMostrada(n)" :src="imagenMostrada(n)" alt="" />
+                <input
+                  :key="claves[n]"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  @change="elegirImagen($event, n)"
+                />
+                <button
+                  v-if="imagenMostrada(n)"
+                  type="button"
+                  class="nf-link"
+                  @click="quitarImagen(n)"
+                >
+                  Quitar imagen
+                </button>
+              </div>
+            </div>
+
+            <p v-if="errorNoticia" class="error-msg">{{ errorNoticia }}</p>
+
+            <div class="nf-acciones">
+              <button class="btn-guardar" type="submit" :disabled="guardandoNoticia">
+                {{ guardandoNoticia ? "Guardando..." : editandoId ? "Guardar cambios" : "Publicar noticia" }}
+              </button>
+              <button v-if="editandoId" type="button" class="btn-cancelar" @click="limpiarFormNoticia">
+                Cancelar edición
+              </button>
+            </div>
+          </form>
+
+          <h3 class="sub-titulo">Noticias cargadas</h3>
+          <p class="nota">En la web se muestran, en el modal, las 3 noticias activas más recientes.</p>
+
+          <div v-if="noticias.length === 0" class="estado-msg">No hay noticias cargadas</div>
+          <div v-else class="fotos-grid">
+            <div v-for="n in noticias" :key="n.id" class="foto-card" :class="{ oculta: !n.activa }">
+              <div v-if="n.imagen1 || n.imagen2" class="not-imgs">
+                <img v-if="n.imagen1" :src="n.imagen1" alt="" />
+                <img v-if="n.imagen2" :src="n.imagen2" alt="" />
+              </div>
+              <div class="foto-info">
+                <p class="foto-autor">{{ n.titulo }}</p>
+                <p class="res-texto">{{ n.texto }}</p>
+                <p class="foto-fecha">🕐 {{ formatearFecha(n.fecha) }}</p>
+                <p>
+                  <span v-if="!n.activa" class="chip chip-gris">Oculta</span>
+                  <span v-else-if="noticiasEnModal.includes(n.id)" class="chip chip-verde">En el modal</span>
+                  <span v-else class="chip chip-gris">Activa, fuera del modal</span>
+                </p>
+              </div>
+              <div class="acciones-3">
+                <button class="btn-aprobar" @click="editarNoticiaForm(n)">✎ Editar</button>
+                <button class="btn-neutro" @click="alternarVisibilidad(n)">
+                  {{ n.activa ? "Ocultar" : "Mostrar" }}
+                </button>
+                <button class="btn-rechazar" @click="borrarNoticia(n)">🗑 Borrar</button>
               </div>
             </div>
           </div>
@@ -701,6 +958,154 @@ onMounted(() => {
   color: white;
 }
 
+.noticia-form {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(26, 46, 26, 0.08);
+  margin-bottom: 1rem;
+}
+.nf-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+.nf-campo span,
+.nf-imagen > span {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texto-medio);
+}
+.nf-campo input,
+.nf-campo textarea {
+  border: 1px solid var(--humo-oscuro);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-cuerpo);
+  font-size: 0.9rem;
+  color: var(--texto-oscuro);
+  background: white;
+  resize: vertical;
+  outline: none;
+}
+.nf-campo input:focus,
+.nf-campo textarea:focus {
+  border-color: var(--verde-claro);
+}
+.nf-imagenes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.nf-imagen {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.nf-imagen img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.nf-link {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #e74c3c;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0;
+}
+.nf-acciones {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.btn-guardar {
+  background: linear-gradient(135deg, var(--verde-bosque), var(--verde-medio));
+  color: var(--humo);
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-cuerpo);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+}
+.btn-guardar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-cancelar {
+  background: none;
+  border: 1px solid var(--humo-oscuro);
+  color: var(--texto-medio);
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nota {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--texto-medio);
+  margin-bottom: 1rem;
+}
+.not-imgs {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 2px;
+}
+.not-imgs img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+.foto-card.oculta {
+  opacity: 0.6;
+}
+.acciones-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid var(--humo-oscuro);
+}
+.btn-neutro {
+  border: none;
+  border-right: 1px solid var(--humo-oscuro);
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--texto-medio);
+  padding: 10px;
+  cursor: pointer;
+  font-family: var(--font-cuerpo);
+  font-size: 0.82rem;
+}
+.btn-neutro:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.chip {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.chip-verde {
+  background: rgba(74, 124, 74, 0.15);
+  color: var(--verde-claro);
+}
+.chip-gris {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--texto-medio);
+}
+@media (max-width: 768px) {
+  .nf-imagenes {
+    grid-template-columns: 1fr;
+  }
+}
 @media (max-width: 768px) {
   .panel-header {
     flex-direction: column;

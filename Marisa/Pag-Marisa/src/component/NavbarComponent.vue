@@ -1,7 +1,8 @@
-
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
+import { getNoticias } from "../api.js";
+import NoticiasModal from "./NoticiasModal.vue";
 
 const router = useRouter();
 
@@ -11,49 +12,59 @@ const navegacion = ref([
     { id: 3, nombre: "Mi Malargüe", enlace: "/#mimalargue" },
     { id: 4, nombre: "Enlaces", enlace: "/#links" },
     { id: 5, nombre: "Reseñas", enlace: "/#resenas" },
-    
 ]);
 
 const menuVisible = ref(false);
 const contactoVisible = ref(false);
 const scrolled = ref(false);
-const activeSection = ref('');
+const activeSection = ref("");
 
-const toggleMenu = () => { menuVisible.value = !menuVisible.value; };
-const closeMenu = () => { menuVisible.value = false; contactoVisible.value = false; };
-const toggleContacto = () => { contactoVisible.value = !contactoVisible.value; };
-const closeContacto = () => { contactoVisible.value = false; };
+const toggleMenu = () => {
+    menuVisible.value = !menuVisible.value;
+};
+const closeMenu = () => {
+    menuVisible.value = false;
+    contactoVisible.value = false;
+};
+const toggleContacto = () => {
+    contactoVisible.value = !contactoVisible.value;
+};
+const closeContacto = () => {
+    contactoVisible.value = false;
+};
 
 // Opciones del dropdown
 const irEstudiantiles = () => {
-    router.push('/estudiantiles');
+    router.push("/estudiantiles");
     closeMenu();
 };
 
 const irWhatsApp = () => {
     // 1. Registrás el evento en Google Analytics usando window.gtag
     if (window.gtag) {
-        window.gtag('event', 'clic_whatsapp', {
-            'event_category': 'Contacto',
-            'event_label': 'Boton WhatsApp Principal'
+        window.gtag("event", "clic_whatsapp", {
+            event_category: "Contacto",
+            event_label: "Boton WhatsApp Principal",
         });
     }
 
     // 2. Abrís WhatsApp normalmente
-    const telefono = '5492604604130';
-    const mensaje = encodeURIComponent('Hola Marisa! Vengo desde la página para consultar disponibilidad.');
+    const telefono = "5492604604130";
+    const mensaje = encodeURIComponent(
+        "Hola Marisa! Vengo desde la página para consultar disponibilidad.",
+    );
 
-    window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
+    window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
     closeMenu();
 };
 const abrirGaleria = () => {
-    router.push('/galeria')
+    router.push("/galeria");
     closeMenu();
 };
 
 const handleScroll = () => {
     scrolled.value = window.scrollY > 60;
-    const sections = ['experiencia', 'dondeir', 'mimalargue', 'links'];
+    const sections = ["experiencia", "dondeir", "mimalargue", "links"];
     for (const id of [...sections].reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 120) {
@@ -65,18 +76,32 @@ const handleScroll = () => {
 
 // Cerrar dropdown al hacer click fuera
 const handleClickOutside = (e) => {
-    if (!e.target.closest('.contacto-wrapper')) {
+    if (!e.target.closest(".contacto-wrapper")) {
         contactoVisible.value = false;
     }
 };
 
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('click', handleClickOutside);
+// --- NOTICIAS ---
+const noticias = ref([]);
+const noticiasAbiertas = ref(false);
+
+const abrirNoticias = () => {
+    noticiasAbiertas.value = true;
+    closeMenu(); // cierra el menú en el celular
+};
+
+onMounted(async () => {
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("click", handleClickOutside);
+    try {
+        noticias.value = await getNoticias();
+    } catch (e) {
+        console.error(e);
+    }
 });
 onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
-    window.removeEventListener('click', handleClickOutside);
+    window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener("click", handleClickOutside);
 });
 </script>
 
@@ -102,6 +127,12 @@ onUnmounted(() => {
                         @click="closeMenu">
                         {{ nav.nombre }}
                     </a>
+                </li>
+                <li v-if="noticias.length" class="noticias-item">
+                    <button class="nav-noticias" @click="abrirNoticias">
+                        <span class="punto-vivo"></span>
+                        Noticias de la semana
+                    </button>
                 </li>
 
                 <!-- Botón Contacto con dropdown -->
@@ -144,6 +175,10 @@ onUnmounted(() => {
 
     <!-- Overlay móvil -->
     <div v-if="menuVisible" class="overlay" @click="closeMenu"></div>
+    <!-- Overlay móvil -->
+    <div v-if="menuVisible" class="overlay" @click="closeMenu"></div>
+
+    <NoticiasModal :abierto="noticiasAbiertas" :noticias="noticias" @cerrar="noticiasAbiertas = false" />
 </template>
 
 <style scoped>
@@ -158,9 +193,9 @@ onUnmounted(() => {
 }
 
 .navbar-inner {
-    max-width: 1100px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 1.2rem 2rem;
+    padding: 1.2rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -220,7 +255,7 @@ onUnmounted(() => {
 }
 
 .nav-item::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 4px;
     left: 14px;
@@ -350,6 +385,57 @@ onUnmounted(() => {
     font-size: 0.72rem;
     color: rgba(245, 240, 232, 0.45);
 }
+.navbar-logo, .nav-item, .nav-cta y .nav-noticias{
+    white-space: nowrap;
+}
+
+/* ===== NOTICIAS (separado del resto del menú) ===== */
+.noticias-item {
+    margin-left: 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 1px solid rgba(212, 169, 106, 0.3);
+}
+
+.nav-noticias {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid rgba(212, 169, 106, 0.5);
+    color: var(--arena);
+    font-family: var(--font-cuerpo);
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-noticias:hover {
+    background: rgba(212, 169, 106, 0.12);
+}
+
+.punto-vivo {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e0a030;
+    animation: pulso 1.8s ease-in-out infinite;
+}
+
+@keyframes pulso {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(224, 160, 48, 0.6);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px rgba(224, 160, 48, 0);
+    }
+}
 
 /* ===== HAMBURGUESA ===== */
 .menu-toggle {
@@ -398,7 +484,7 @@ onUnmounted(() => {
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
     .menu-toggle {
         display: flex;
     }
@@ -423,7 +509,7 @@ onUnmounted(() => {
         justify-content: center;
         gap: 1rem;
         padding: 3rem 2rem;
-        transition: right 0.4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+        transition: right 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
         z-index: 900;
         border-left: 1px solid rgba(212, 169, 106, 0.15);
         box-shadow: -10px 0 40px rgba(0, 0, 0, 0.4);
@@ -464,6 +550,21 @@ onUnmounted(() => {
         max-height: 300px;
         pointer-events: all;
         transform: none;
+    }
+
+    .noticias-item {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+        border-top: 1px solid rgba(212, 169, 106, 0.2);
+        padding-top: 1rem;
+        width: 100%;
+    }
+
+    .nav-noticias {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
     }
 }
 </style>
